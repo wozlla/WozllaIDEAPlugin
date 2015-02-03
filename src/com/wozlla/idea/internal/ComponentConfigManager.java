@@ -3,6 +3,8 @@ package com.wozlla.idea.internal;
 import com.intellij.openapi.components.ProjectComponent;
 import com.wozlla.idea.IComponentConfigManager;
 import com.wozlla.idea.scene.ComponentConfig;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -33,7 +35,25 @@ public class ComponentConfigManager implements IComponentConfigManager, ProjectC
 
     @Override
     public void updateConfig(String configPlainText) {
+        try {
+            JSONObject config = new JSONObject(configPlainText);
+            Iterator iter = config.keys();
+            while(iter.hasNext()) {
+                String componentName = iter.next().toString();
+                JSONObject compConfig = config.getJSONObject(componentName);
+                configMap.put(componentName, new ComponentConfig(compConfig));
+            }
+            System.out.println("dispatch config updated");
+            dispatchConfigUpdatedEvent();
+        } catch(JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    protected void dispatchConfigUpdatedEvent() {
+        for(IConfigUpdatedListener listener : listeners) {
+            listener.onUpdated();
+        }
     }
 
     @Override

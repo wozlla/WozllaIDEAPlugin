@@ -83,7 +83,7 @@ public class GameObject extends PropertyObject {
         }
     }
 
-    public String getUUID() throws JSONException {
+    public String getUUID() {
         return this.uuid;
     }
 

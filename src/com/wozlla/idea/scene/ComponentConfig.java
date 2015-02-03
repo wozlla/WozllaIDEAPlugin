@@ -27,7 +27,7 @@ public class ComponentConfig {
                 String type = cfg.getString("type");
                 Object defaultValue = cfg.has("defaultValue") ? cfg.get("defaultValue") : null;
                 String editor = cfg.has("editor") ? cfg.getString("editor") : null;
-                JSONObject data = cfg.has("data") ? cfg.getJSONObject("data") : null;
+                Object data = cfg.has("data") ? cfg.get("data") : null;
                 this.propertyConfigMap.put(name, new PropertyConfig(name, type, defaultValue, editor, data));
                 this.properties.add(name);
             }

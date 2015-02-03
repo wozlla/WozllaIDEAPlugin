@@ -1,5 +1,6 @@
 (function() {
     var bridgeInvoke = window['bridgeInvoke'];
+    var bridge = window.bridge = {};
 
     function createThrowFunc() {
         return function(msg) {
@@ -103,12 +104,62 @@
             }, time || 500);
         }
 
+        bridge.onGameObjectSelectionChange = function(uuid) {
+            if(selectedGameObject) {
+                selectedGameObject.selected = false;
+            }
+            if(uuid) {
+                var gameObj = builder.getByUUID(uuid);
+                gameObj.selected = true;
+                selectedGameObject = gameObj;
+            } else {
+                selectedGameObject = null;
+            }
+            dirty = true;
+        };
+
+        bridge.onGameObjectPropertyChange = function(uuid, name, newValue, oldValue) {
+            var gameObject = builder.getByUUID(uuid);
+            switch(name) {
+                case "id":
+                case "name":
+                    gameObject[name] = newValue;
+                    break;
+                case "active":
+                case "visible":
+                case "touchable":
+                    gameObject[name] = newValue === 'true';
+                    break;
+                case "z":
+                    gameObject.z = parseInt(newValue);
+                    break;
+            }
+            dirty = true;
+        };
+
+        bridge.onTransformPropertyChange = function(uuid, name, newValue, oldValue) {
+            var gameObject = builder.getByUUID(uuid);
+            gameObject.transform[name] = name === 'relative' ? newValue === 'true' : parseFloat(newValue);
+            if(gameObject.transform.dirty) {
+                dirty = true;
+            }
+        };
+
+        bridge.onComponentPropertyChange = function(uuid, name, newValue, oldValue) {
+            reload2Stage(20);
+        };
+
+        bridge.onHierarchyChange = function() {
+            reload2Stage(20);
+        };
+
         loadExternals(function() {
             reload2Stage(0, function() {
-                bridgeInvoke("editorReady");
+                bridgeInvoke('updateComponentConfig', JSON.stringify(WOZLLA.Component.configMap));
+                bridgeInvoke('editorReady');
             });
-
         });
+
     };
 
     // overrides
