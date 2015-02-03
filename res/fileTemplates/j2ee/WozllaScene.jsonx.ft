@@ -1,0 +1,15 @@
+{
+  "root": {
+    "uuid": "root",
+    "name": "root",
+    "id": "",
+    "z": 0,
+    "active": true,
+    "visible": true,
+    "touchable": false,
+    "transform": {
+      "x": 0,
+      "y": 0
+    }
+  }
+}

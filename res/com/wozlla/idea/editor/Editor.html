@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>VisualEditor</title>
+    <style>
+        body { background-color: #4f4f4f; overflow-y: hidden; margin: 0; padding: 0; }
+        #main-wrapper {
+            margin: 0;
+            padding: 10px 10px 10px 10px;
+            -webkit-transform: scale(0.5, 0.5);
+            -webkit-transform-origin: 0 0;
+            position: absolute;
+            display: none;
+        }
+        #main { background-color: #444; box-shadow: #222 0 0 20px; }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <canvas id="main" width="960" height="640"></canvas>
+</div>
+<script type="text/javascript">
+    var wrapper = document.getElementById("main-wrapper");
+    window.addEventListener("resize", function() {
+        var width = parseInt(980)/2;
+        var height = parseInt(660)/2;
+        if(width < window.innerWidth) {
+            wrapper.style.left = (window.innerWidth-width)/2 + 'px';
+        } else {
+            wrapper.style.left = 0;
+        }
+        if(height < window.innerHeight) {
+            wrapper.style.top = (window.innerHeight-height)/2 + 'px';
+        } else {
+            wrapper.style.top = 0;
+        }
+    });
+</script>
+<script src="runtime.js"></script>
+<script src="Editor.js"></script>
+</body>
+</html>

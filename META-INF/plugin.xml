@@ -1,0 +1,52 @@
+<idea-plugin version="2">
+  <id>com.wozlla.idea</id>
+  <name>Wozlla IDEA Plugin</name>
+  <version>1.0</version>
+  <vendor email="xiaoming@wozlla.com" url="http://www.wozlla.com">Wozlla</vendor>
+
+  <description><![CDATA[
+      An IDEA Plugin for WOZLLA.js
+    ]]></description>
+
+  <change-notes><![CDATA[
+
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="131"/>
+
+  <depends>com.intellij.modules.lang</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <directoryProjectGenerator implementation="com.wozlla.idea.WozllaProjectGenerator" />
+    <fileTypeFactory implementation="com.wozlla.idea.file.SceneFileTypeFactory"/>
+    <fileEditorProvider implementation="com.wozlla.idea.editor.SceneEditorProvider"/>
+    <fileTemplateGroup implementation="com.wozlla.idea.NewFileTemplateFactory"/>
+  </extensions>
+
+  <application-components>
+  </application-components>
+
+  <project-components>
+    <component>
+      <interface-class>com.wozlla.idea.IExternalFileCompiler</interface-class>
+      <implementation-class>com.wozlla.idea.internal.ExternalFileCompiler</implementation-class>
+    </component>
+    <component>
+      <interface-class>com.wozlla.idea.IComponentConfigManager</interface-class>
+      <implementation-class>com.wozlla.idea.internal.ComponentConfigManager</implementation-class>
+    </component>
+  </project-components>
+
+  <actions>
+    <action id="Wozlla.NewScene" class="com.wozlla.idea.action.NewSceneAction"
+            icon="/com/wozlla/idea/icons/obj.png">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+    </action>
+    <action id="Wozlla.NewUIScene" class="com.wozlla.idea.action.NewUISceneAction"
+            icon="/com/wozlla/idea/icons/obj.png">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="Wozlla.NewScene"/>
+    </action>
+  </actions>
+
+</idea-plugin>
