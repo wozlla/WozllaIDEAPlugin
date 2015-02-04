@@ -170,7 +170,9 @@ public class Inspector extends JBPanel {
     public void clearInspect() {
         for(Component comp : getComponents()) {
             if(comp instanceof ComponentPane) {
-                ((ComponentPane)comp).removeCloseListener(commonPaneCloseListener);
+                ComponentPane compPane = ((ComponentPane) comp);
+                compPane.removeCloseListener(commonPaneCloseListener);
+                compPane.destroyFields();
             }
         }
         this.removeAll();

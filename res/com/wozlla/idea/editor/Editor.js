@@ -200,7 +200,7 @@
                     callback('Fail to parse base64 image: ' + me.src);
                 };
             } else {
-                me.err = me.src + 'not found';
+                me.err = me.src + ' not found';
                 callback && callback();
             }
         };

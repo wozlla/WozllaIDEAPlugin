@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 public class StringField extends PropertyBindField<String, JTextComponent> implements GridBagLayoutAware {
 
-    public StringField(JTextComponent component, PropertyObject target, String propertyName) {
+    public StringField(final JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
         component.addKeyListener(new KeyAdapter() {
             @Override

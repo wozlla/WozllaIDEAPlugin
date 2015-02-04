@@ -11,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class CommonPane extends JPanel {
+public abstract class CommonPane extends JPanel {
 
     private JComponent content;
     private boolean closable;
@@ -71,7 +71,7 @@ public class CommonPane extends JPanel {
         listenerList.remove(listener);
     }
 
-
+    public abstract void destroyFields();
 
     public static interface CloseListener {
         void onClose(CommonPane pane);

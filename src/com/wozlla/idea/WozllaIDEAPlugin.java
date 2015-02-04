@@ -9,6 +9,8 @@ public class WozllaIDEAPlugin {
     public static final String COMPILE_SHELL_PATH = "Editor/compile.sh";
     public static final String COMPILED_FILE_PATH = "Editor/externals.js";
 
+    public static final String SPRITE_ATLAS_SUFFIX = ".tt.json";
+
     public static final String COORDS_IMAGE_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAKoAAACqCAMAAAAKqCSwAAAAgVBMVEUAAACtaGgAAAAAA" +
             "AAAAAClY2MAAAADAAAEAAC4bm4AAAACAAADAAACAAADAAB/MQADAAADAAAKCwkDAAABenYCVlQGAQBaIgACQkBSHwCnY2MA//b/ZgC" +
             "aXFyRi4nHbVgA1s7oXAAAtrAA7ubOUQCMVFQAmZSaPQDHjIy5ZVC2SAAdWcZyAAAAG3RSTlMA5CQxC9cExUDUGXxIaYz4s1baoPPa+" +

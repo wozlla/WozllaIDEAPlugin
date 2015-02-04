@@ -19,14 +19,19 @@ public class FieldFactory {
         fieldMap.put("padding", PaddingField.class);
         fieldMap.put("margin", MarginField.class);
         fieldMap.put("rect", RectField.class);
+        fieldMap.put("spriteAtlas".toLowerCase(), SpriteAtlasField.class);
+        fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);
     }
 
     public static Field create(String type, PropertyObject target, String propertyName) {
-        Class<? extends Field> fieldClass = fieldMap.get(type.toLowerCase());
+        Class<? extends Field> fieldClass = fieldMap.get(type);
+        if(fieldClass == null) {
+            fieldClass = fieldMap.get(type.toLowerCase());
+        }
         try {
             return fieldClass.getConstructor(PropertyObject.class, String.class).newInstance(target, propertyName);
         } catch(Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Fail to create field: " + type, e);
         }
     }
 

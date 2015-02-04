@@ -53,6 +53,15 @@ public class BasicPane extends CommonPane {
 
     }
 
+    public void destroyFields() {
+        JComponent content = this.getContent();
+        for(java.awt.Component comp : content.getComponents()) {
+            if(comp instanceof Field) {
+                ((Field)comp).destroy();
+            }
+        }
+    }
+
     public void addWithConstraints(JComponent container, GridBagConstraints gc, int x, int y,
                                    int spanX, int spanY, int fill, JComponent comp) {
         gc.gridx = x;
@@ -77,4 +86,6 @@ public class BasicPane extends CommonPane {
         }
         return (JComponent)field;
     }
+
+
 }

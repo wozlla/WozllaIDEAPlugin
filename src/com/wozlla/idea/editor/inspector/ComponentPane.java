@@ -10,11 +10,14 @@ import org.codehaus.jettison.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ComponentPane extends CommonPane {
 
     private Project project;
     private Component component;
+    private Map<String, Field> fieldMap;
 
     public ComponentPane(Project project, Component component) {
         super(component.getName(), new JPanel(), true);
@@ -31,9 +34,10 @@ public class ComponentPane extends CommonPane {
         IComponentConfigManager mgr = project.getComponent(IComponentConfigManager.class);
         ComponentConfig config = mgr.getComponentConfig(componentName);
 
+        fieldMap = new HashMap<String, Field>();
+
         for(String name : config.properties) {
             ComponentConfig.PropertyConfig propConfig = config.propertyConfigMap.get(name);
-            System.out.println("Create Field[" + propConfig.name + "]");
             try {
                 component.ensureProperty(propConfig.name, propConfig.defaultValue);
             } catch(JSONException e) {
@@ -53,6 +57,16 @@ public class ComponentPane extends CommonPane {
                 field = FieldFactory.create(propConfig.getEditorType(), component, propConfig.name, data);
             } else {
                 field = FieldFactory.create(propConfig.getEditorType(), component, propConfig.name);
+            }
+            this.fieldMap.put(propConfig.name, field);
+            if(field instanceof ProjectAware) {
+                ((ProjectAware)field).setProject(project);
+            }
+            if(field instanceof ComponentPaneAware) {
+                ((ComponentPaneAware)field).setComponentPane(this);
+            }
+            if(field instanceof PropertyConfigAware) {
+                ((PropertyConfigAware)field).setPropertyConfig(propConfig);
             }
             if(field instanceof GridBagLayoutAware) {
 
@@ -78,7 +92,25 @@ public class ComponentPane extends CommonPane {
         }
     }
 
+    public Project getProject() {
+        return this.project;
+    }
+
+    public Field getField(String name) {
+        return this.fieldMap.get(name);
+    }
+
     public Component getInspectingComponent() {
         return component;
+    }
+
+    public void destroyFields() {
+        this.fieldMap.clear();
+        JComponent content = this.getContent();
+        for(java.awt.Component comp : content.getComponents()) {
+            if(comp instanceof Field) {
+                ((Field)comp).destroy();
+            }
+        }
     }
 }

@@ -94,6 +94,15 @@ public class RectTransformPane extends CommonPane {
         updateOtherFieldState(anchorModelField.getValue());
     }
 
+    public void destroyFields() {
+        JComponent content = this.getContent();
+        for(java.awt.Component comp : content.getComponents()) {
+            if(comp instanceof Field) {
+                ((Field)comp).destroy();
+            }
+        }
+    }
+
     public void updateOtherFieldState(String anchorMode) {
         String[] modes = anchorMode.split("_");
         String hmode = modes[0];
