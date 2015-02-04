@@ -3,5 +3,7 @@ Wozlla IDEA Plugin enhanced visual editing for WOZLLA.js
 
 ## TODOs
 
-1. jxbrowser bridge
-2. visual editor
+* Partial change contents of SceneEditor document, when scene was changed.
+* Visual Editor: visual editing, resolution, zooming.
+* More fields of Inspector.
+* Auto compile changes and reload Visual Editor
