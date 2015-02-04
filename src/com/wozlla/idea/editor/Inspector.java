@@ -123,6 +123,9 @@ public class Inspector extends JBPanel {
 
     public void inspect(GameObject gameObject) {
         this.clearInspect();
+        if(gameObject == null) {
+            return;
+        }
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gc = new GridBagConstraints();

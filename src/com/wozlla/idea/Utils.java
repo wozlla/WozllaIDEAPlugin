@@ -21,4 +21,16 @@ public class Utils {
     public static String getProjectPath(Project project, VirtualFile file) {
         return file.getPath().replace(project.getBaseDir().getPath() + "/", "");
     }
+
+    public static void insertAt(int index, Object obj, JSONArray array) throws JSONException {
+        int len = array.length();
+        for(int i=len-1; i>=index; i--) {
+            if(i == len -1) {
+                array.put(array.get(i));
+            } else {
+                array.put(i + 1, array.get(i));
+            }
+        }
+        array.put(index, obj);
+    }
 }

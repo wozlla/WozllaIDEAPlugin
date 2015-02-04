@@ -1,6 +1,7 @@
 package com.wozlla.idea.scene;
 
 
+import com.wozlla.idea.Utils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -107,6 +108,7 @@ public class GameObject extends PropertyObject {
         try {
             this.source.getJSONArray("children").put(child.source);
             child.parent = this;
+            this.children.add(child);
             for(HierarchyChangeListener l : listenerList) {
                 l.onAddChild(child);
             }
@@ -114,6 +116,32 @@ public class GameObject extends PropertyObject {
         } catch(JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void insertBefore(GameObject beInserted, GameObject relatived) {
+        int index = this.children.indexOf(relatived);
+        try {
+            JSONArray jsonArray = this.source.getJSONArray("children");
+            Utils.insertAt(index, beInserted.source, jsonArray);
+        } catch(JSONException e) {
+            throw new RuntimeException(e);
+        }
+        this.children.add(index, beInserted);
+        beInserted.parent = this;
+        this.getSceneChangeListener().onInsertBeforeGameObject(beInserted, relatived);
+    }
+
+    public void insertAfter(GameObject beInserted, GameObject relatived) {
+        int index = this.children.indexOf(relatived);
+        try {
+            JSONArray jsonArray = this.source.getJSONArray("children");
+            Utils.insertAt(index+1, beInserted.source, jsonArray);
+        } catch(JSONException e) {
+            throw new RuntimeException(e);
+        }
+        this.children.add(index+1, beInserted);
+        beInserted.parent = this;
+        this.getSceneChangeListener().onInsertAfterGameObject(beInserted, relatived);
     }
 
     public void removeGameObject(GameObject child) {

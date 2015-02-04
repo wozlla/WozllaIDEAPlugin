@@ -73,6 +73,9 @@ public class SpriteAtlasField extends StringField implements DnDTarget, ProjectA
     @Override
     public void drop(DnDEvent event) {
         File file = getSingleFile(event);
+        if(!event.isDropPossible()) {
+            return;
+        }
         if(file != null) {
             VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
             if(virtualFile != null) {
@@ -89,6 +92,8 @@ public class SpriteAtlasField extends StringField implements DnDTarget, ProjectA
         File file = getSingleFile(event);
         if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SPRITE_ATLAS_SUFFIX)) {
             event.setDropPossible(true);
+        } else {
+            event.setDropPossible(false);
         }
         return false;
     }

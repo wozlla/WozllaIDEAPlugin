@@ -1,19 +1,33 @@
 package com.wozlla.idea.editor;
 
+import com.intellij.ide.dnd.*;
+import com.intellij.ide.projectView.impl.ProjectViewPane;
 import com.intellij.openapi.ui.JBPopupMenu;
+import com.intellij.openapi.util.Pair;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.awt.RelativeRectangle;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.ui.UIUtil;
 import com.thaiopensource.xml.dtd.om.Def;
 import com.wozlla.idea.Icons;
 import com.wozlla.idea.scene.GameObject;
 import com.wozlla.idea.scene.PropertyObject;
 import com.wozlla.idea.scene.Transform;
+import com.wozlla.idea.utils.DnDAdapter;
+import org.apache.batik.apps.svgbrowser.DOMDocumentTree;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Enumeration;
 
 public class Hierarchy extends Tree implements ActionListener {
@@ -24,11 +38,16 @@ public class Hierarchy extends Tree implements ActionListener {
     public static final String ACTION_DELETE = "Delete";
     public static final String ACTION_DUPLICATE = "Dumplicate";
 
+    public static final int DROP_ACTION_APPEND = 1;
+    public static final int DROP_ACTION_INSERT_BEFORE = 2;
+    public static final int DROP_ACTION_INSERT_AFTER = 3;
+
     private GameObject rootGameObject;
+    private DnDHandler dnDHandler;
 
     public Hierarchy(GameObject rootGameObject) {
         super();
-        this.setModel(new GameObjectTreeModel(new GameObjectNode(rootGameObject)));
+        this.setModel(new DefaultTreeModel(new GameObjectNode(rootGameObject)));
         this.rootGameObject = rootGameObject;
         this.setLargeModel(true);
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer() {
@@ -40,6 +59,7 @@ public class Hierarchy extends Tree implements ActionListener {
             public Color getBackgroundSelectionColor() {
                 return (null);
             }
+
         };
         renderer.setLeafIcon(Icons.GAMEOBJECT_ICON);
         renderer.setOpenIcon(Icons.GAMEOBJECT_ICON);
@@ -47,7 +67,7 @@ public class Hierarchy extends Tree implements ActionListener {
         renderer.setDisabledIcon(Icons.GAMEOBJECT_ICON);
         renderer.setBorderSelectionColor(renderer.getBackgroundSelectionColor());
         DefaultTreeSelectionModel selectionModel = new DefaultTreeSelectionModel();
-        selectionModel.setSelectionMode(DefaultTreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
+        selectionModel.setSelectionMode(DefaultTreeSelectionModel.SINGLE_TREE_SELECTION);
 
         this.setSelectionModel(selectionModel);
         this.setCellRenderer(renderer);
@@ -68,6 +88,11 @@ public class Hierarchy extends Tree implements ActionListener {
         item.addActionListener(this);
 
         this.setComponentPopupMenu(popupMenu);
+
+        this.dnDHandler = new DnDHandler();
+
+        DnDManager.getInstance().registerSource(this.dnDHandler, this);
+        DnDManager.getInstance().registerTarget(this.dnDHandler, this);
     }
 
     public GameObject[] findGameObjectsByPaths(TreePath[] paths) {
@@ -78,7 +103,6 @@ public class Hierarchy extends Tree implements ActionListener {
         }
         return objArray;
     }
-
 
 
     @Override
@@ -155,6 +179,24 @@ public class Hierarchy extends Tree implements ActionListener {
         childNode.onRemoveFromParent();
     }
 
+    public void onInsertBeforeGameObject(GameObject beInserted, GameObject relatived) {
+        DefaultTreeModel treeModel = (DefaultTreeModel)this.getModel();
+        GameObjectNode relativedNode = searchNode(relatived);
+        GameObjectNode parent = (GameObjectNode)relativedNode.getParent();
+        int index = parent.getIndex(relativedNode);
+        GameObjectNode childNode = new GameObjectNode(beInserted);
+        treeModel.insertNodeInto(childNode, parent, index);
+    }
+
+    public void onInsertAfterGameObject(GameObject beInserted, GameObject relatived) {
+        DefaultTreeModel treeModel = (DefaultTreeModel)this.getModel();
+        GameObjectNode relativedNode = searchNode(relatived);
+        GameObjectNode parent = (GameObjectNode)relativedNode.getParent();
+        int index = parent.getIndex(relativedNode);
+        GameObjectNode childNode = new GameObjectNode(beInserted);
+        treeModel.insertNodeInto(childNode, parent, index+1);
+    }
+
     public class GameObjectNode extends DefaultMutableTreeNode implements PropertyObject.ChangeListener {
 
         GameObject gameObject;
@@ -181,7 +223,7 @@ public class Hierarchy extends Tree implements ActionListener {
         @Override
         public void onChange(String key, Object newValue, Object oldValue) {
             if(key.equals("name")) {
-                ((GameObjectTreeModel)getModel()).nodeChanged(this);
+                ((DefaultTreeModel)getModel()).nodeChanged(this);
             }
         }
 
@@ -191,13 +233,115 @@ public class Hierarchy extends Tree implements ActionListener {
 
     }
 
-    static class GameObjectTreeModel extends DefaultTreeModel {
+    class DnDHandler extends DnDAdapter {
 
-        public GameObjectTreeModel(TreeNode root) {
-            super(root);
+        @Override
+        public boolean canStartDragging(DnDAction action, Point dragOrigin) {
+            GameObjectNode node = getSelectedNode();
+            return node != null && !node.isRoot();
         }
 
-    }
+        @Override
+        public DnDDragStartBean startDragging(DnDAction action, Point dragOrigin) {
+            return new DnDDragStartBean(getSelectedNode(), dragOrigin);
+        }
 
+        @Nullable
+        @Override
+        public Pair<Image, Point> createDraggedImage(DnDAction action, Point dragOrigin) {
+            GameObjectNode node = getSelectedNode();
+            JLabel label = new JLabel(node.gameObject.toString());
+            label.setIcon(Icons.GAMEOBJECT_ICON);
+            label.setOpaque(true);
+            label.setForeground(Hierarchy.this.getForeground());
+            label.setBackground(Hierarchy.this.getBackground());
+            label.setFont(Hierarchy.this.getFont());
+            label.setSize(label.getPreferredSize());
+            BufferedImage image = UIUtil.createImage(label.getWidth(), label.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = (Graphics2D)image.getGraphics();
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+            label.paint(g2);
+            g2.dispose();
+            return new Pair<Image, Point>(image, new Point(-image.getWidth(null)/3*2, -image.getHeight(null)));
+        }
+
+        @Override
+        public boolean update(DnDEvent event) {
+            if(!(event.getAttachedObject() instanceof GameObjectNode)) {
+                event.setDropPossible(false);
+                return false;
+            }
+
+            final Point point = event.getPoint();
+            final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
+            final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
+            final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
+            if(pathBounds == null) {
+                event.setDropPossible(false);
+                return false;
+            }
+            final double distance = point.y - pathBounds.getCenterY();
+            int type;
+            if(Math.abs(distance) <= 7) {
+                type = DnDEvent.DropTargetHighlightingType.RECTANGLE;
+            } else {
+                if(targetNode.isRoot()) {
+                    event.setDropPossible(false);
+                    return false;
+                }
+                type = DnDEvent.DropTargetHighlightingType.H_ARROWS;
+                if(distance > 0) {
+                    pathBounds.y += pathBounds.getHeight()/2;
+                } else {
+                    pathBounds.y -= pathBounds.getHeight()/2;
+                }
+            }
+            event.setHighlighting(new RelativeRectangle(Hierarchy.this, pathBounds), type);
+            event.setDropPossible(true);
+            return false;
+        }
+
+        @Override
+        public void drop(DnDEvent event) {
+            if(!event.isDropPossible()) {
+                return;
+            }
+            final GameObjectNode draggedNode = (GameObjectNode)event.getAttachedObject();
+            final Point point = event.getPoint();
+            final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
+            final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
+            final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
+            if(pathBounds == null || targetNode == null) {
+                return;
+            }
+
+            final double distance = point.y - pathBounds.getCenterY();
+            int action;
+            if(Math.abs(distance) <= 7) {
+                action = DROP_ACTION_APPEND;
+            } else {
+                if(distance > 0) {
+                    action = DROP_ACTION_INSERT_AFTER;
+                } else {
+                    action = DROP_ACTION_INSERT_BEFORE;
+                }
+            }
+
+            switch(action) {
+                case DROP_ACTION_APPEND:
+                    draggedNode.gameObject.getParent().removeGameObject(draggedNode.gameObject);
+                    targetNode.gameObject.addGameObject(draggedNode.gameObject);
+                    break;
+                case DROP_ACTION_INSERT_AFTER:
+                    draggedNode.gameObject.getParent().removeGameObject(draggedNode.gameObject);
+                    targetNode.gameObject.getParent().insertAfter(draggedNode.gameObject, targetNode.gameObject);
+                    break;
+                case DROP_ACTION_INSERT_BEFORE:
+                    draggedNode.gameObject.getParent().removeGameObject(draggedNode.gameObject);
+                    targetNode.gameObject.getParent().insertBefore(draggedNode.gameObject, targetNode.gameObject);
+                    break;
+            }
+        }
+    }
 
 }

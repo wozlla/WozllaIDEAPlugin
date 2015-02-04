@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import java.awt.*;
+import java.util.*;
+import java.util.Timer;
 
 public class SceneEditorKit extends JPanel implements SceneChangeListener {
 
@@ -26,6 +28,8 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
     private final Document document;
     private final JSONObject rootJSONObject;
     private final GameObject rootGameObject;
+    private int updateDocumentActionId = 0;
+    private Timer updateDocumentTimer;
 
     public SceneEditorKit(Project project, Document document, JSONObject rootJSONObject) throws JSONException {
         super(new BorderLayout(0, 0));
@@ -66,61 +70,50 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
 
     public void onScenePropertyChange(final PropertyObject source, final String name,
                                       final Object newValue, final Object oldValue) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                document.setText(rootJSONObject.toString());
-                visualEditor.onScenePropertyChange(source, name, newValue, oldValue);
-            }
-        });
+        visualEditor.onScenePropertyChange(source, name, newValue, oldValue);
+        delayUpdateDocument("ScenePropertyChange");
     }
 
     @Override
     public void onAddGameObject(final GameObject parent, final GameObject child) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                document.setText(rootJSONObject.toString());
-                hierarchy.onAddGameObject(parent, child);
-                visualEditor.onAddGameObject(parent, child);
-            }
-        });
+        hierarchy.onAddGameObject(parent, child);
+        visualEditor.onAddGameObject(parent, child);
+        delayUpdateDocument("AddGameObject");
     }
 
     @Override
     public void onRemoveGameObject(final GameObject parent, final GameObject child) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                document.setText(rootJSONObject.toString());
-                hierarchy.onRemoveGameObject(parent, child);
-                visualEditor.onRemoveGameObject(parent, child);
-            }
-        });
+        hierarchy.onRemoveGameObject(parent, child);
+        visualEditor.onRemoveGameObject(parent, child);
+        delayUpdateDocument("RemoveGameObject");
     }
 
     @Override
     public void onAddComponent(final GameObject gameObj, final Component component) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                document.setText(rootJSONObject.toString());
-                inspector.onAddComponent(gameObj, component);
-                visualEditor.onAddComponent(gameObj, component);
-            }
-        });
+        inspector.onAddComponent(gameObj, component);
+        visualEditor.onAddComponent(gameObj, component);
+        delayUpdateDocument("AddComponent");
     }
 
     @Override
     public void onRemoveComponent(final GameObject gameObj, final Component component) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                document.setText(rootJSONObject.toString());
-                inspector.onRemoveComponent(gameObj, component);
-                visualEditor.onRemoveComponent(gameObj, component);
-            }
-        });
+        inspector.onRemoveComponent(gameObj, component);
+        visualEditor.onRemoveComponent(gameObj, component);
+        delayUpdateDocument("RemoveComponent");
+    }
+
+    @Override
+    public void onInsertBeforeGameObject(GameObject beInserted, GameObject relatived) {
+        hierarchy.onInsertBeforeGameObject(beInserted, relatived);
+        visualEditor.onInsertBeforeGameObject(beInserted, relatived);
+        delayUpdateDocument("InsertBeforeGameObject");
+    }
+
+    @Override
+    public void onInsertAfterGameObject(GameObject beInserted, GameObject relatived) {
+        hierarchy.onInsertAfterGameObject(beInserted, relatived);
+        visualEditor.onInsertAfterGameObject(beInserted, relatived);
+        delayUpdateDocument("InsertAfterGameObject");
     }
 
     protected void registerListeners() {
@@ -156,6 +149,22 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
                         repaint();
                     }
                 });
+            }
+        });
+
+    }
+
+    protected void delayUpdateDocument(final String action) {
+        final int actionId = ++updateDocumentActionId;
+        ApplicationManager.getApplication().runWriteAction(new Runnable() {
+            @Override
+            public void run() {
+                if (actionId == updateDocumentActionId) {
+                    System.out.println("write " + actionId + " " + action);
+                    document.setText(rootJSONObject.toString());
+                } else {
+                    System.out.println("abandon write " + actionId + " " + action);
+                }
             }
         });
 

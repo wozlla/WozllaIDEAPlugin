@@ -97,6 +97,14 @@ public class VisualEditor extends JPanel {
         this.bridge.onRemoveComponent(gameObj, component);
     }
 
+    public void onInsertBeforeGameObject(GameObject beInserted, GameObject relatived) {
+        this.bridge.onInsertBeforeGameObject(beInserted, relatived);
+    }
+
+    public void onInsertAfterGameObject(GameObject beInserted, GameObject relatived) {
+        this.bridge.onInsertAfterGameObject(beInserted, relatived);
+    }
+
     protected void initBridge() {
         this.bridge = new JavascriptBridge();
         this.browser.registerFunction("bridgeInvoke", this.bridge);
@@ -178,7 +186,7 @@ public class VisualEditor extends JPanel {
         }
 
         public void onGameObjectSelectionChange(GameObject[] objArray) {
-            if(objArray.length == 1) {
+            if(objArray != null && objArray.length == 1) {
                 execute("bridge.onGameObjectSelectionChange('" + objArray[0].getUUID() + "');");
             } else {
                 execute("bridge.onGameObjectSelectionChange();");
@@ -229,6 +237,14 @@ public class VisualEditor extends JPanel {
         }
 
         public void onRemoveComponent(GameObject gameObj, com.wozlla.idea.scene.Component component) {
+            this.executeOnHierachyChange();
+        }
+
+        public void onInsertBeforeGameObject(GameObject beInserted, GameObject relatived) {
+            this.executeOnHierachyChange();
+        }
+
+        public void onInsertAfterGameObject(GameObject beInserted, GameObject relatived) {
             this.executeOnHierachyChange();
         }
 

@@ -7,5 +7,7 @@ public interface SceneChangeListener {
     void onRemoveGameObject(GameObject parent, GameObject child);
     void onAddComponent(GameObject gameObj, Component component);
     void onRemoveComponent(GameObject gameObj, Component component);
+    void onInsertBeforeGameObject(GameObject beInserted, GameObject relatived);
+    void onInsertAfterGameObject(GameObject beInserted, GameObject relatived);
 
 }
