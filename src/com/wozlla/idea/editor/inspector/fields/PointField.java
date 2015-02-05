@@ -20,9 +20,9 @@ public class PointField extends PropertyBindField<JSONArray, JPanel> implements 
         JPanel panel = this.getComponent();
         panel.add(xSpinner);
         panel.add(ySpinner);
+        setValue(getTargetPropertyValue());
         xSpinner.addChangeListener(this);
         ySpinner.addChangeListener(this);
-        this.setValue(getTargetPropertyValue());
     }
 
     @Override
