@@ -16,8 +16,8 @@ public class StringField extends PropertyBindField<String, JTextComponent> imple
         super(component, target, propertyName);
         component.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                if(e.getKeyCode() == 13) {
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     updateTargetPropertyValue();
                 }
             }
