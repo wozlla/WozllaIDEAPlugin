@@ -271,12 +271,12 @@ public class Hierarchy extends Tree implements ActionListener {
                 event.setDropPossible(false);
                 return false;
             }
-
+            final GameObjectNode draggedNode = (GameObjectNode)event.getAttachedObject();
             final Point point = event.getPoint();
             final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
             final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
             final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
-            if(pathBounds == null) {
+            if(pathBounds == null || targetNode == null || draggedNode == targetNode) {
                 event.setDropPossible(false);
                 return false;
             }
@@ -311,7 +311,7 @@ public class Hierarchy extends Tree implements ActionListener {
             final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
             final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
             final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
-            if(pathBounds == null || targetNode == null) {
+            if(pathBounds == null || targetNode == null || draggedNode == targetNode) {
                 return;
             }
 
