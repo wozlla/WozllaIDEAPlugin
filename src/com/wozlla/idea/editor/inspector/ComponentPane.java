@@ -37,6 +37,7 @@ public class ComponentPane extends CommonPane {
         fieldMap = new HashMap<String, Field>();
 
         for(String name : config.properties) {
+
             ComponentConfig.PropertyConfig propConfig = config.propertyConfigMap.get(name);
             try {
                 component.ensureProperty(propConfig.name, propConfig.defaultValue);
@@ -59,6 +60,8 @@ public class ComponentPane extends CommonPane {
                 field = FieldFactory.create(propConfig.getEditorType(), component, propConfig.name);
             }
             this.fieldMap.put(propConfig.name, field);
+
+            JLabel label = new JLabel(propConfig.name);
             if(field instanceof ProjectAware) {
                 ((ProjectAware)field).setProject(project);
             }
@@ -68,6 +71,9 @@ public class ComponentPane extends CommonPane {
             if(field instanceof PropertyConfigAware) {
                 ((PropertyConfigAware)field).setPropertyConfig(propConfig);
             }
+            if(field instanceof LabelAware) {
+                ((LabelAware)field).setLabel(label);
+            }
             if(field instanceof GridBagLayoutAware) {
 
                 // add label
@@ -76,7 +82,7 @@ public class ComponentPane extends CommonPane {
                 gc.gridheight = 1;
                 gc.weightx = 0.5;
                 gc.fill = GridBagConstraints.HORIZONTAL;
-                content.add(new JLabel(propConfig.name), gc);
+                content.add(label, gc);
 
                 // add field
                 GridBagLayoutAware.LayoutParams params = ((GridBagLayoutAware) field).getLayoutParams();
