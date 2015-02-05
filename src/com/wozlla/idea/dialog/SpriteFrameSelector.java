@@ -16,21 +16,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SpriteFrameSelector extends DialogWrapper {
 
-    private Project project;
     private VirtualFile spriteAtlasFile;
     private JSONObject spriteData;
     private FrameItem selectedFrame;
     private SpriteAtlasPanel spriteAtlasPanel;
     private String initFrame;
+    private java.util.List<FrameItem> frames;
+    private JComboBox<FrameItem> frameCombobox;
 
     public SpriteFrameSelector(Project project, VirtualFile spriteAtlasFile, JSONObject spriteData, String initFrame) {
         super(project, false);
-        this.project = project;
         this.spriteAtlasFile = spriteAtlasFile;
         this.spriteData = spriteData;
         this.initFrame = initFrame;
@@ -54,11 +56,17 @@ public class SpriteFrameSelector extends DialogWrapper {
             if (imageFile != null) {
                 Image image = ImageIO.read(imageFile.getInputStream());
                 spriteAtlasPanel = new SpriteAtlasPanel(image);
+                spriteAtlasPanel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        onMouseClick(e);
+                    }
+                });
                 JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 JLabel frameComboLabel = new JLabel("Search: ");
 
                 FrameItem initFrameItem = new FrameItem("none", null);
-                java.util.List<FrameItem> frames = new ArrayList<FrameItem>();
+                frames = new ArrayList<FrameItem>();
                 frames.add(initFrameItem);
                 Object framesData = spriteData.get("frames");
                 if(framesData instanceof JSONArray) {
@@ -82,24 +90,24 @@ public class SpriteFrameSelector extends DialogWrapper {
                     }
                 }
 
-                JComboBox<FrameItem> comboBox = new com.intellij.openapi.ui.ComboBox();
+                frameCombobox = new com.intellij.openapi.ui.ComboBox();
                 for(FrameItem item : frames) {
-                    comboBox.addItem(item);
+                    frameCombobox.addItem(item);
                 }
-                comboBox.addItemListener(new ItemListener() {
+                frameCombobox.addItemListener(new ItemListener() {
                     @Override
                     public void itemStateChanged(ItemEvent e) {
                         selectFrame((FrameItem)e.getItem());
                     }
                 });
-                comboBox.setEditable(false);
+                frameCombobox.setEditable(false);
                 toolbar.add(frameComboLabel);
-                toolbar.add(comboBox);
+                toolbar.add(frameCombobox);
                 container.add(toolbar, BorderLayout.NORTH);
                 JBScrollPane scrollPane = new JBScrollPane(spriteAtlasPanel);
                 scrollPane.setAutoscrolls(true);
                 container.add(scrollPane, BorderLayout.CENTER);
-                comboBox.setSelectedItem(initFrameItem);
+                frameCombobox.setSelectedItem(initFrameItem);
                 return container;
             }
 
@@ -115,6 +123,7 @@ public class SpriteFrameSelector extends DialogWrapper {
 
     protected void selectFrame(FrameItem frameItem) {
         if(null == frameItem.data) {
+            this.selectedFrame = frameItem;
             spriteAtlasPanel.rect = null;
             spriteAtlasPanel.repaint();
             return;
@@ -133,6 +142,31 @@ public class SpriteFrameSelector extends DialogWrapper {
             this.selectedFrame = frameItem;
         } catch(JSONException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void onMouseClick(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        for(FrameItem item : frames) {
+            if(item.data != null) {
+                try {
+                    JSONObject frame = item.data.getJSONObject("frame");
+                    double x = frame.getDouble("x");
+                    double y = frame.getDouble("y");
+                    double w = frame.getDouble("w");
+                    double h = frame.getDouble("h");
+                    if(mouseX >= x && mouseX < x + w && mouseY >= y && mouseY <= y + h) {
+                        frameCombobox.setSelectedItem(item);
+                        if(e.getClickCount() == 2) {
+                            this.doOKAction();
+                        }
+                        return;
+                    }
+                } catch(JSONException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 
