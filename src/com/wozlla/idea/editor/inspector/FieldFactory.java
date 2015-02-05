@@ -19,6 +19,7 @@ public class FieldFactory {
         fieldMap.put("padding", PaddingField.class);
         fieldMap.put("margin", MarginField.class);
         fieldMap.put("rect", RectField.class);
+        fieldMap.put("circle", CircleField.class);
         fieldMap.put("point", PointField.class);
         fieldMap.put("spriteAtlas".toLowerCase(), SpriteAtlasField.class);
         fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);

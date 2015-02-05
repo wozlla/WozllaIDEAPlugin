@@ -2,9 +2,11 @@ package com.wozlla.idea.dialog;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.JBScrollPane;
 import com.wozlla.idea.IComponentConfigManager;
 import com.wozlla.idea.Icons;
 import com.wozlla.idea.scene.ComponentConfig;
@@ -19,7 +21,9 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 
 public class ComponentDialog extends DialogWrapper {
 
@@ -43,6 +47,18 @@ public class ComponentDialog extends DialogWrapper {
         Collection<ComponentConfig> configList = mgr.getComponentConfigAsList();
         final ComponentConfig[] configArray = new ComponentConfig[configList.size()];
         configList.toArray(configArray);
+        Arrays.sort(configArray, new Comparator<ComponentConfig>() {
+            @Override
+            public int compare(ComponentConfig a, ComponentConfig b) {
+                if(a.name.contains(".") && !b.name.contains(".")) {
+                    return 1;
+                }
+                else if(!a.name.contains(".") && b.name.contains(".")) {
+                    return -1;
+                }
+                return StringUtil.compare(a.name, b.name, false);
+            }
+        });
 
         JPanel container = new JPanel(new BorderLayout());
         final JTextField searchField;
@@ -54,8 +70,6 @@ public class ComponentDialog extends DialogWrapper {
         searchField.setPreferredSize(new Dimension(440, 26));
         container.add(searchPanel, BorderLayout.NORTH);
 
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.setBorder(new LineBorder(new JBColor(0x555555, 0x555555)));
         final JBList compList = new JBList(configArray);
         compList.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,8 +100,11 @@ public class ComponentDialog extends DialogWrapper {
             }
         };
         compList.setCellRenderer(renderer);
-        listPanel.add(compList, BorderLayout.CENTER);
-        container.add(listPanel, BorderLayout.CENTER);
+
+        JBScrollPane listScrollPane = new JBScrollPane();
+        listScrollPane.setBorder(new LineBorder(new JBColor(0x555555, 0x555555)));
+        listScrollPane.setViewportView(compList);
+        container.add(listScrollPane, BorderLayout.CENTER);
 
         searchField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
@@ -109,6 +126,7 @@ public class ComponentDialog extends DialogWrapper {
 
         container.setPreferredSize(new Dimension(500, 500));
         container.setSize(new Dimension(500, 500));
+
 
         return container;
     }
