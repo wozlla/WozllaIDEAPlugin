@@ -1,5 +1,7 @@
 package com.wozlla.idea;
 
+import java.util.regex.Pattern;
+
 public class WozllaIDEAPlugin {
 
     public static boolean isWozllaProject = false;
@@ -10,6 +12,7 @@ public class WozllaIDEAPlugin {
     public static final String COMPILED_FILE_PATH = "Editor/externals.js";
 
     public static final String SPRITE_ATLAS_SUFFIX = ".tt.json";
+    public static final Pattern IMAGE_PATTERN = Pattern.compile("(.*/)*.+\\.(png|jpg)$", Pattern.CASE_INSENSITIVE);
 
     public static final String COORDS_IMAGE_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAKoAAACqCAMAAAAKqCSwAAAAgVBMVEUAAACtaGgAAAAAA" +
             "AAAAAClY2MAAAADAAAEAAC4bm4AAAACAAADAAACAAADAAB/MQADAAADAAAKCwkDAAABenYCVlQGAQBaIgACQkBSHwCnY2MA//b/ZgC" +

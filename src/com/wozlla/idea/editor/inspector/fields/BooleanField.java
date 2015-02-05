@@ -1,13 +1,11 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.intellij.util.ui.CheckBox;
 import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 public class BooleanField extends PropertyBindField<Boolean, JCheckBox> implements GridBagLayoutAware {
 

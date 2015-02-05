@@ -21,6 +21,7 @@ public class FieldFactory {
         fieldMap.put("rect", RectField.class);
         fieldMap.put("circle", CircleField.class);
         fieldMap.put("point", PointField.class);
+        fieldMap.put("imageSrc", ImageSrcField.class);
         fieldMap.put("spriteAtlas".toLowerCase(), SpriteAtlasField.class);
         fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);
         fieldMap.put("spriteOffset".toLowerCase(), SpriteOffsetField.class);
