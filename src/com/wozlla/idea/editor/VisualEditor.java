@@ -1,23 +1,31 @@
 package com.wozlla.idea.editor;
 
+import com.intellij.ide.browsers.BrowserSelector;
+import com.intellij.ide.browsers.BrowserStarter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.teamdev.jxbrowser.chromium.*;
 import com.teamdev.jxbrowser.chromium.events.*;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import com.wozlla.idea.IComponentConfigManager;
+import com.wozlla.idea.Icons;
 import com.wozlla.idea.WozllaIDEAPlugin;
 import com.wozlla.idea.scene.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sanselan.util.IOUtils;
 import org.codehaus.jettison.json.JSONException;
+import org.jdesktop.swingx.JXHyperlink;
+import org.jdesktop.swingx.hyperlink.HyperlinkAction;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.logging.Level;
 
 public class VisualEditor extends JPanel {
@@ -32,14 +40,25 @@ public class VisualEditor extends JPanel {
 
     public VisualEditor(Project project, GameObject rootGameObject) {
         super(new BorderLayout(0, 0));
+        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222", "--disable-web-security", "--allow-file-access-from-files");
         this.project = project;
         this.rootGameObject = rootGameObject;
         this.browser = new Browser();
+
         this.browserView = new BrowserView(browser);
         this.browserView.setBackground(this.getBackground());
 
-        this.toolBar = new JToolBar(JToolBar.HORIZONTAL);
+        this.toolBar = new JToolBar();
         this.toolBar.setPreferredSize(new Dimension(0, 34));
+
+        String remoteDebuggingURL = browser.getRemoteDebuggingURL();
+        try {
+            JXHyperlink link = new JXHyperlink(HyperlinkAction.createHyperlinkAction(new URI(remoteDebuggingURL)));
+            link.setText("DEBUG");
+            this.toolBar.add(link);
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
 
         this.add(this.toolBar, BorderLayout.NORTH);
         this.add(this.browserView, BorderLayout.CENTER);
@@ -49,7 +68,9 @@ public class VisualEditor extends JPanel {
         this.initBridge();
         this.listenConsole();
 
-        LoggerProvider.getBrowserLogger().setLevel(Level.WARNING);
+        LoggerProvider.getBrowserLogger().setLevel(Level.SEVERE);
+        LoggerProvider.getIPCLogger().setLevel(Level.SEVERE);
+        LoggerProvider.getChromiumProcessLogger().setLevel(Level.SEVERE);
     }
 
     public void load(final LoadCallback callback) {
@@ -71,6 +92,10 @@ public class VisualEditor extends JPanel {
         LoadHTMLParams params = new LoadHTMLParams(html, encoding, baseURL);
         this.browser.loadHTML(params);
         this.loadCallback = callback;
+    }
+
+    public void unload() {
+        this.browser.dispose();
     }
 
     public void onGameObjectSelectionChange(GameObject[] objArray) {

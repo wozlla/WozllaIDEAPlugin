@@ -68,6 +68,10 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
         this.initEnviroment();
     }
 
+    public void onClose() {
+        this.visualEditor.unload();
+    }
+
     public void onScenePropertyChange(final PropertyObject source, final String name,
                                       final Object newValue, final Object oldValue) {
         visualEditor.onScenePropertyChange(source, name, newValue, oldValue);
@@ -160,10 +164,11 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
             @Override
             public void run() {
                 if (actionId == updateDocumentActionId) {
-                    System.out.println("write " + actionId + " " + action);
-                    document.setText(rootJSONObject.toString());
-                } else {
-                    System.out.println("abandon write " + actionId + " " + action);
+                    try {
+                        document.setText(rootJSONObject.toString(2));
+                    } catch(JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });

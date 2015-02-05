@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30a69290-9492-4113-8566-f022e603eda3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html" afterPath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" afterPath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/Icons.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/Icons.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditor.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WozllaIDEAPlugin.iws" />
@@ -46,7 +53,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/scene/scene/SceneChangeListener.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/scene/Component.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/Icons.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/WozllaProjectGenerator.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/ExternalFileCompiler.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/IExternalFileCompiler.java" />
@@ -56,20 +62,16 @@
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/internal/ExternalFileCompiler.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/NewFileTemplateFactory.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditor.java" />
         <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/runtime.js" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/internal/ComponentConfigManager.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/scene/ComponentConfig.java" />
-        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/CommonPane.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/BasicPane.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/TransformPane.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java" />
-        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/WozllaIDEAPlugin.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/JSONUtils.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ProjectAware.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentConfigAware.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentPaneAware.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/PropertyConfigAware.java" />
@@ -80,16 +82,21 @@
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/Inspector.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteAtlasField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/utils/DnDAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/scene/SceneChangeListener.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/scene/GameObject.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/Utils.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PointField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteOffsetField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java" />
+        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/Icons.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditor.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java" />
+        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html" />
       </list>
     </option>
   </component>
@@ -236,6 +243,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WozllaIDEAPlugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WozllaIDEAPlugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inspector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fields" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -272,11 +309,11 @@
       <recent name="com.wozlla.idea" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/com/wozlla/idea/icons" />
       <recent name="$PROJECT_DIR$/res/com/wozlla/idea/editor" />
       <recent name="$PROJECT_DIR$/src/com/wozlla/idea/action" />
       <recent name="$PROJECT_DIR$/src/com/wozlla/idea/dialog" />
       <recent name="$PROJECT_DIR$/src/com/wozlla/idea/file" />
-      <recent name="$PROJECT_DIR$/src/com/wozlla/idea/editor" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/res/com/wozlla/idea/icons" />
@@ -563,12 +600,12 @@
       <workItem from="1422942823436" duration="159000" />
       <workItem from="1422942999950" duration="17861000" />
       <workItem from="1422977585753" duration="36461000" />
-      <workItem from="1423098783375" duration="1284000" />
+      <workItem from="1423098783375" duration="5972000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66394000" />
+    <option name="totallyTimeSpent" value="71082000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1435" height="877" extended-state="6" />
@@ -589,7 +626,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26992103" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29299363" sideWeight="0.49964106" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29299363" sideWeight="0.49964106" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Animations&#9;" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Physics&#9;" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -652,136 +689,21 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/lang-impl/src/com/intellij/ide/projectView/impl/ProjectViewPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2265">
-          <caret line="52" column="50" selection-start-line="52" selection-start-column="50" selection-end-line="52" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/lang-impl/src/com/intellij/ide/projectView/impl/AbstractProjectViewPSIPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2625">
-          <caret line="57" column="74" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/DnDManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12626262" vertical-offset="0" max-vertical-offset="594">
-          <caret line="23" column="22" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/java/awt/Image.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4964539" vertical-offset="0" max-vertical-offset="4845">
-          <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/util-rt/src/com/intellij/util/Function.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="234" max-vertical-offset="810">
-          <caret line="51" column="14" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/AdvancedDnDSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31914893" vertical-offset="0" max-vertical-offset="423">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/DnDSupport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51463413" vertical-offset="29" max-vertical-offset="3825">
-          <caret line="39" column="43" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/DnDSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11347517" vertical-offset="72" max-vertical-offset="495">
-          <caret line="25" column="26" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/lang-impl/src/com/intellij/ide/projectView/impl/AbstractProjectViewPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6262627" vertical-offset="8391" max-vertical-offset="8985">
-          <caret line="604" column="37" selection-start-line="604" selection-start-column="37" selection-end-line="604" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/lang-impl/src/com/intellij/ide/projectView/impl/ProjectViewDropTarget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="5460">
-          <caret line="113" column="24" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-impl/src/com/intellij/ide/dnd/DropTargetHighlighter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12077295" vertical-offset="0" max-vertical-offset="621">
-          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-impl/src/com/intellij/ide/dnd/DnDEventImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.962963" vertical-offset="1849" max-vertical-offset="3630">
-          <caret line="190" column="23" selection-start-line="190" selection-start-column="23" selection-end-line="190" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-impl/src/com/intellij/ide/dnd/DnDManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6338" max-vertical-offset="10425">
-          <caret line="463" column="30" selection-start-line="463" selection-start-column="30" selection-end-line="463" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-impl/src/com/intellij/ide/dnd/Highlighters.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="915" max-vertical-offset="3345">
-          <caret line="101" column="108" selection-start-line="101" selection-start-column="87" selection-end-line="101" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/DnDTargetChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36231884" vertical-offset="0" max-vertical-offset="621">
-          <caret line="29" column="10" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteAtlasField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="1500">
-          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/platform-api/src/com/intellij/ide/dnd/DnDEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55795676" vertical-offset="841" max-vertical-offset="1350">
-          <caret line="99" column="8" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/util/src/com/intellij/ui/awt/RelativeRectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33289298" vertical-offset="48" max-vertical-offset="930">
-          <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/utils/DnDAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#311#312#0" expanded="false" />
+            <element signature="e#339#340#0" expanded="false" />
+            <element signature="e#434#435#0" expanded="false" />
+            <element signature="e#461#462#0" expanded="false" />
+            <element signature="e#577#578#0" expanded="false" />
+            <element signature="e#604#605#0" expanded="false" />
+            <element signature="e#1023#1024#0" expanded="false" />
+            <element signature="e#1051#1052#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -789,6 +711,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
           <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="25" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -811,13 +734,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="2850">
           <caret line="136" column="23" selection-start-line="136" selection-start-column="23" selection-end-line="136" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4296578" vertical-offset="1034" max-vertical-offset="3525">
-          <caret line="104" column="67" selection-start-line="104" selection-start-column="67" selection-end-line="104" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -825,6 +742,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.256654" vertical-offset="0" max-vertical-offset="526">
           <caret line="9" column="77" selection-start-line="9" selection-start-column="77" selection-end-line="9" selection-end-column="77" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -832,6 +750,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33269963" vertical-offset="2765" max-vertical-offset="21720">
           <caret line="226" column="20" selection-start-line="226" selection-start-column="20" selection-end-line="226" selection-end-column="20" />
+          <folding>
+            <element signature="e#8203#8204#0" expanded="false" />
+            <element signature="e#8232#8233#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -839,20 +761,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33269963" vertical-offset="2720" max-vertical-offset="9585">
           <caret line="233" column="16" selection-start-line="233" selection-start-column="16" selection-end-line="233" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1124" max-vertical-offset="2310">
-          <caret line="108" column="54" selection-start-line="108" selection-start-column="54" selection-end-line="108" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4662" max-vertical-offset="5235">
-          <caret line="336" column="59" selection-start-line="336" selection-start-column="59" selection-end-line="336" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -881,6 +790,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1475" max-vertical-offset="2790">
           <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -896,6 +806,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
           <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -991,8 +902,8 @@
         <state vertical-scroll-proportion="-2.9799197" vertical-offset="3404" max-vertical-offset="29010">
           <caret line="165" column="37" selection-start-line="165" selection-start-column="13" selection-end-line="165" selection-end-column="37" />
           <folding>
-            <element signature="e#5367#5368#0" expanded="true" />
-            <element signature="e#5413#5414#0" expanded="true" />
+            <element signature="e#5367#5368#0" expanded="false" />
+            <element signature="e#5413#5414#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1013,8 +924,8 @@
         <state vertical-scroll-proportion="-0.23895583" vertical-offset="1529" max-vertical-offset="6270">
           <caret line="118" column="11" selection-start-line="118" selection-start-column="11" selection-end-line="118" selection-end-column="11" />
           <folding>
-            <element signature="e#6640#6641#0" expanded="true" />
-            <element signature="e#6712#6713#0" expanded="true" />
+            <element signature="e#6640#6641#0" expanded="false" />
+            <element signature="e#6712#6713#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1024,7 +935,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1034,6 +945,193 @@
         <state vertical-scroll-proportion="0.090361446" vertical-offset="0" max-vertical-offset="735">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/Hierarchy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4648" max-vertical-offset="5175">
+          <caret line="273" column="89" selection-start-line="273" selection-start-column="89" selection-end-line="273" selection-end-column="89" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/java/awt/event/KeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2751423" vertical-offset="2345" max-vertical-offset="24750">
+          <caret line="194" column="28" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31309298" vertical-offset="0" max-vertical-offset="615">
+          <caret line="19" column="52" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+          <folding>
+            <element signature="e#645#884#0" expanded="false" />
+            <element signature="e#883#884#0" expanded="false" />
+            <element signature="e#922#1083#0" expanded="false" />
+            <element signature="e#1082#1083#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.686907" vertical-offset="2668" max-vertical-offset="3405">
+          <caret line="202" column="20" selection-start-line="202" selection-start-column="20" selection-end-line="202" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/WozllaIDEAPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.085388996" vertical-offset="0" max-vertical-offset="527">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/WOZLLA.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47859922" vertical-offset="73869" max-vertical-offset="133230">
+          <caret line="4941" column="34" selection-start-line="4941" selection-start-column="25" selection-end-line="4941" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2808349" vertical-offset="1215" max-vertical-offset="2145">
+          <caret line="50" column="56" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/xml/impl/src/com/intellij/ide/browsers/BrowserSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14231499" vertical-offset="0" max-vertical-offset="1350">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/platform/lang-api/src/com/intellij/execution/configurations/RunConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5933852" vertical-offset="1074" max-vertical-offset="1680">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../Library/intellij-community-master.zip!/intellij-community-master/xml/impl/src/com/intellij/ide/browsers/BrowserStarter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32101166" vertical-offset="45" max-vertical-offset="1470">
+          <caret line="26" column="45" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/javax/swing/AbstractAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33206832" vertical-offset="1145" max-vertical-offset="4935">
+          <caret line="128" column="11" selection-start-line="128" selection-start-column="11" selection-end-line="128" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Applications/WebStorm.app/Contents/lib/swingx-core-1.6.2.jar!/org/jdesktop/swingx/JXHyperlink.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.2" vertical-offset="610" max-vertical-offset="1770">
+          <caret line="44" column="19" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="19" />
+          <folding>
+            <element signature="e#812#813#0" expanded="true" />
+            <element signature="e#846#847#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/java/awt/Component.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33206832" vertical-offset="8240" max-vertical-offset="144675">
+          <caret line="644" column="30" selection-start-line="644" selection-start-column="30" selection-end-line="644" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/javax/swing/SwingConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1175" max-vertical-offset="1815">
+          <caret line="105" column="32" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/javax/swing/JToolBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33206832" vertical-offset="740" max-vertical-offset="11640">
+          <caret line="104" column="11" selection-start-line="104" selection-start-column="11" selection-end-line="104" selection-end-column="11" />
+          <folding>
+            <element signature="e#2964#2965#0" expanded="true" />
+            <element signature="e#2998#2999#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/Icons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34155598" vertical-offset="0" max-vertical-offset="527">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1688805" vertical-offset="1019" max-vertical-offset="1905">
+          <caret line="144" column="38" selection-start-line="144" selection-start-column="38" selection-end-line="144" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.772296" vertical-offset="433" max-vertical-offset="2385">
+          <caret line="71" column="35" selection-start-line="71" selection-start-column="35" selection-end-line="71" selection-end-column="35" />
+          <folding>
+            <element signature="e#2833#2834#0" expanded="true" />
+            <element signature="e#2875#2876#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Applications/WebStorm.app/Contents/lib/swingx-core-1.6.2.jar!/org/jdesktop/swingx/hyperlink/HyperlinkAction.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33742332" vertical-offset="0" max-vertical-offset="1755">
+          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.1632653" vertical-offset="290" max-vertical-offset="780">
+          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.361868" vertical-offset="3266" max-vertical-offset="3780">
+          <caret line="60" column="9" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
+          <folding>
+            <element signature="e#4121#4122#0" expanded="true" />
+            <element signature="e#4159#4160#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

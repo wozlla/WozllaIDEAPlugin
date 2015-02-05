@@ -142,6 +142,7 @@ public class SceneEditor extends UserDataHolderBase implements FileEditor, DumbA
 
     @Override
     public void dispose() {
+        this.sceneEditorKit.onClose();
         Disposer.dispose(this);
     }
 

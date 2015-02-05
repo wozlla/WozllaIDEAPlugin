@@ -13,7 +13,7 @@
             position: absolute;
             display: none;
         }
-        #main {
+        canvas {
             background-image: url(data:image/gif;base64,R0lGODdhFAAUAIACAOfn5/Hx8SwAAAAAFAAUAAACJoSPiaGt7CKAstGaLj56T5+Bi8iRRrehmFqxkhvBjmyZU4Dn+r4XADs=);
             box-shadow: #222 0 0 3px;
             border: 1px solid #000000;
@@ -26,7 +26,7 @@
 </div>
 <script type="text/javascript">
     var wrapper = document.getElementById("main-wrapper");
-    window.addEventListener("resize", function() {
+    window.addEventListener("resize", function onResize() {
         var width = parseInt(980)/2;
         var height = parseInt(660)/2;
         if(width < window.innerWidth) {
