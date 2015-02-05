@@ -19,8 +19,10 @@ public class FieldFactory {
         fieldMap.put("padding", PaddingField.class);
         fieldMap.put("margin", MarginField.class);
         fieldMap.put("rect", RectField.class);
+        fieldMap.put("point", PointField.class);
         fieldMap.put("spriteAtlas".toLowerCase(), SpriteAtlasField.class);
         fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);
+        fieldMap.put("spriteOffset".toLowerCase(), SpriteOffsetField.class);
     }
 
     public static Field create(String type, PropertyObject target, String propertyName) {
