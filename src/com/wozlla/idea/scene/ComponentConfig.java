@@ -12,12 +12,14 @@ import java.util.Map;
 public class ComponentConfig {
 
     public final String name;
+    public final boolean isAbstract;
     public final Map<String, PropertyConfig> propertyConfigMap;
     public final List<String> properties;
 
     public ComponentConfig(JSONObject configJSON) {
         try {
             this.name = configJSON.getString("name");
+            this.isAbstract = configJSON.has("abstractComponent") && configJSON.getBoolean("abstractComponent");
             this.propertyConfigMap = new HashMap<String, PropertyConfig>();
             this.properties = new ArrayList<String>();
             List<JSONObject> propConfigArray = new ArrayList<JSONObject>();

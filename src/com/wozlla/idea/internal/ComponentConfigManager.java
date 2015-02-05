@@ -40,8 +40,11 @@ public class ComponentConfigManager implements IComponentConfigManager, ProjectC
             Iterator iter = config.keys();
             while(iter.hasNext()) {
                 String componentName = iter.next().toString();
-                JSONObject compConfig = config.getJSONObject(componentName);
-                configMap.put(componentName, new ComponentConfig(compConfig));
+                JSONObject compConfigJSON = config.getJSONObject(componentName);
+                ComponentConfig compConfig = new ComponentConfig(compConfigJSON);
+                if(!compConfig.isAbstract) {
+                    configMap.put(componentName, compConfig);
+                }
             }
             System.out.println("dispatch config updated");
             dispatchConfigUpdatedEvent();
