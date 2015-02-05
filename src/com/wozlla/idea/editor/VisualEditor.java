@@ -1,9 +1,12 @@
 package com.wozlla.idea.editor;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.browsers.BrowserSelector;
 import com.intellij.ide.browsers.BrowserStarter;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.ListCellRendererWrapper;
 import com.teamdev.jxbrowser.chromium.*;
 import com.teamdev.jxbrowser.chromium.events.*;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -18,10 +21,14 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.hyperlink.HyperlinkAction;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,14 +54,63 @@ public class VisualEditor extends JPanel {
 
         this.browserView = new BrowserView(browser);
         this.browserView.setBackground(this.getBackground());
+        this.browserView.setAutoscrolls(true);
 
         this.toolBar = new JToolBar();
-        this.toolBar.setPreferredSize(new Dimension(0, 34));
+        this.toolBar.setPreferredSize(new Dimension(0, 28));
+        this.toolBar.setFloatable(false);
+
+        final JSlider scaleSlider = new JSlider(JSlider.HORIZONTAL, 50, 120, 50);
+        final JLabel scaleValueLabel = new JLabel("50%");
+        scaleValueLabel.setIcon(Icons.ZOOM_ICON);
+        scaleSlider.setMaximumSize(new Dimension(80, 24));
+        scaleSlider.setPreferredSize(new Dimension(80, 24));
+        scaleSlider.setSize(new Dimension(80, 24));
+        scaleSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                scaleValueLabel.setText(scaleSlider.getValue() + "%");
+                bridge.onZoomChange(scaleSlider.getValue());
+            }
+        });
+
+        ComboBox screenCombobox = new ComboBox(new ScreenSize[] {
+                new ScreenSize(960, 640),
+                new ScreenSize(640, 960),
+                new ScreenSize(1136, 640),
+                new ScreenSize(640, 1136)
+        });
+        screenCombobox.setRenderer(new ListCellRendererWrapper() {
+            @Override
+            public void customize(JList list, Object value, int index, boolean selected, boolean hasFocus) {
+                setIcon(Icons.MOBILE_ICON);
+            }
+        });
+        screenCombobox.setSize(new Dimension(100, 24));
+        screenCombobox.setMaximumSize(new Dimension(120, 24));
+        screenCombobox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    ScreenSize size = (ScreenSize) e.getItem();
+                    bridge.onResize(size.width, size.height);
+                }
+            }
+        });
+
+        this.toolBar.add(Box.createHorizontalGlue());
+        this.toolBar.addSeparator();
+        this.toolBar.add(scaleValueLabel);
+        this.toolBar.add(scaleSlider);
+        this.toolBar.addSeparator();
+        this.toolBar.add(screenCombobox);
+        this.toolBar.addSeparator();
 
         String remoteDebuggingURL = browser.getRemoteDebuggingURL();
         try {
             JXHyperlink link = new JXHyperlink(HyperlinkAction.createHyperlinkAction(new URI(remoteDebuggingURL)));
-            link.setText("DEBUG");
+            link.setText("");
+            link.setIcon(Icons.DEBUG_ICON);
             this.toolBar.add(link);
         } catch(Exception e) {
             throw new RuntimeException(e);
@@ -210,6 +266,14 @@ public class VisualEditor extends JPanel {
             loadCallback = null;
         }
 
+        public void onResize(int width, int height) {
+            execute("bridge.onResize(" + width + "," + height + ");");
+        }
+
+        public void onZoomChange(double zoom) {
+            execute("bridge.onZoomChange(" + zoom + ");");
+        }
+
         public void onGameObjectSelectionChange(GameObject[] objArray) {
             if(objArray != null && objArray.length == 1) {
                 execute("bridge.onGameObjectSelectionChange('" + objArray[0].getUUID() + "');");
@@ -281,5 +345,20 @@ public class VisualEditor extends JPanel {
             browser.executeJavaScript(code);
         }
 
+    }
+
+    public static class ScreenSize {
+
+        public int width;
+        public int height;
+
+        public ScreenSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public String toString() {
+            return width + "x" + height;
+        }
     }
 }

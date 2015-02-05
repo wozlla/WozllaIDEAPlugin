@@ -1,6 +1,7 @@
 (function() {
     var bridgeInvoke = window['bridgeInvoke'];
     var bridge = window.bridge = {};
+    var editorInstance;
 
     function createThrowFunc() {
         return function(msg) {
@@ -25,39 +26,98 @@
         loadScript('Editor/externals.js', callback, createThrowFunc());
     }
 
-    window.onload = function() {
-        var director = new WOZLLA.Director(document.getElementById("main"));
-
-        var oMask = new WOZLLA.GameObject();
-        oMask.addComponent(new WOZLLA.component.MaskCollider());
-        oMask.loadAssets(function() {
-            oMask.init();
-        });
-        oMask.z = 999999999;
-        director.stage.addChild(oMask, true);
-
-        director.renderer.layerManager.define("__internal_coordsGameObject", 999999);
-        var coordGameObject = new WOZLLA.GameObject();
-        var coordRenderer = new WOZLLA.component.SpriteRenderer();
-        coordRenderer.imageSrc = '__internal_coords_image.png';
-        coordRenderer.renderLayer = '__internal_coordsGameObject';
-        coordGameObject.addComponent(coordRenderer);
-        coordGameObject.loadAssets(function() {
-            coordGameObject.init();
-            coordGameObject.transform.setPosition(-6, -6);
-            coordGameObject.transform.setScale(1, 1);
-        });
+    function EditorInstance() {
 
         var super_visit = WOZLLA.GameObject.prototype.visit;
-        WOZLLA.GameObject.prototype.selected = false;
-        WOZLLA.GameObject.prototype.visit = function(renderer, parentTransform, flags) {
-            flags = super_visit.apply(this, arguments);
-            if(this.selected) {
-                coordGameObject.transform.setScale(1, 1);
-                coordGameObject.transform.dirty = true;
-                coordGameObject.visit(renderer, this.transform, flags);
+        var wrapper = document.getElementById("main-wrapper");
+        var coordGameObject;
+        var scale = 0.5;
+
+        this.director = null;
+
+        this.onResize = function() {
+            if(!this.director) return;
+            var width = parseInt(this.director.view.width+20) * scale;
+            var height = parseInt(this.director.view.height+20) * scale;
+            wrapper.style.width = width + 'px';
+            wrapper.style.height = height + 'px';
+            if(width < window.innerWidth) {
+                wrapper.style.left = Math.abs(window.innerWidth-width) * scale + 'px';
+            } else {
+                wrapper.style.left = 0;
+            }
+            if(height < window.innerHeight) {
+                wrapper.style.top = Math.abs(window.innerHeight-height) * scale + 'px';
+            } else {
+                wrapper.style.top = 0;
             }
         };
+
+        this.setScale = function(value) {
+            scale = value;
+            wrapper.style.webkitTransform = 'scale(' + scale + ',' + scale + ')';
+            this.onResize();
+        };
+
+        this.init = function(width, height) {
+            var canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            wrapper.appendChild(canvas);
+
+            var director = new WOZLLA.Director(canvas);
+
+            var oMask = new WOZLLA.GameObject();
+            oMask.addComponent(new WOZLLA.component.MaskCollider());
+            oMask.loadAssets(function() {
+                oMask.init();
+            });
+            oMask.z = 999999999;
+            director.stage.addChild(oMask, true);
+
+            director.renderer.layerManager.define("__internal_coordsGameObject", 999999);
+            coordGameObject = new WOZLLA.GameObject();
+            coordGameObject.name = Date.now();
+            var coordRenderer = new WOZLLA.component.SpriteRenderer();
+            coordRenderer.imageSrc = '__internal_coords_image.png';
+            coordRenderer.renderLayer = '__internal_coordsGameObject';
+            coordGameObject.addComponent(coordRenderer);
+            coordGameObject.loadAssets(function() {
+                coordGameObject.init();
+                coordGameObject.transform.setPosition(-6, -6);
+                coordGameObject.transform.setScale(1, 1);
+            });
+
+            WOZLLA.GameObject.prototype.selected = false;
+            WOZLLA.GameObject.prototype.visit = function(renderer, parentTransform, flags) {
+                flags = super_visit.apply(this, arguments);
+                if(this.selected) {
+                    coordGameObject.transform.setScale(1, 1);
+                    coordGameObject.transform.dirty = true;
+                    coordGameObject.visit(renderer, this.transform, flags);
+                }
+            };
+
+            this.director = director;
+        };
+
+        this.destroy = function() {
+            console.log("destroy", coordGameObject.name);
+            coordGameObject.destroy();
+            this.director.view.parentNode.removeChild(this.director.view);
+            this.director.stage.destroy();
+            WOZLLA.GameObject.prototype.visit = super_visit;
+        };
+    }
+
+    window.addEventListener('resize', function() {
+        editorInstance && editorInstance.onResize();
+    });
+
+    window.onload = function() {
+
+        editorInstance = new EditorInstance();
+        editorInstance.init(960, 640);
 
         var dirty = true;
 
@@ -69,7 +129,7 @@
             requestAnimationFrame(update);
             if(dirty) {
                 dirty = false;
-                director.runStep(1);
+                editorInstance.director.runStep(1);
             }
         });
 
@@ -92,7 +152,7 @@
                         rootGameObject.destroy();
                         rootGameObject.removeMe();
                     }
-                    director.stage.addChild(root, true);
+                    editorInstance.director.stage.addChild(root, true);
                     rootGameObject = root;
                     if(selectedGameObject) {
                         selectedGameObject = builder.getByUUID(selectedGameObject._uuid);
@@ -101,7 +161,7 @@
                     dirty = true;
                     callback && callback();
                 });
-            }, time || 500);
+            }, time == void 0 ? 500 : time);
         }
 
         bridge.onGameObjectSelectionChange = function(uuid) {
@@ -153,6 +213,19 @@
             reload2Stage(20);
         };
 
+        bridge.onResize = function(width, height) {
+            console.log("resize", width, height);
+            editorInstance && editorInstance.destroy();
+            editorInstance = new EditorInstance();
+            editorInstance.init(width, height);
+            editorInstance.onResize();
+            reload2Stage(0);
+        };
+
+        bridge.onZoomChange = function(value) {
+            editorInstance.setScale(value/100);
+        };
+
         loadExternals(function() {
             reload2Stage(0, function() {
                 bridgeInvoke('updateComponentConfig', JSON.stringify(WOZLLA.Component.configMap));
@@ -168,24 +241,6 @@
             WOZLLA.Component.ctorMap[config.name] = ctor;
             WOZLLA.Component.configMap[config.name] = config;
             ctor.componentName = config.name;
-        };
-
-        WOZLLA.jsonx.JSONXBuilder.prototype._loadJSONData = function(callback) {
-            var me = this;
-            if(me.src && !me.data) {
-                if(bridgeInvoke('isExistInProject', me.src)) {
-                    me.data = JSON.parse(bridgeInvoke('readProjectFile', me.src));
-                    callback && callback();
-                } else {
-                    me.err = me.src + 'not found';
-                    callback && callback();
-                }
-            } else if(me.data) {
-                callback && callback();
-            } else {
-                me.err = "fail to load data";
-                callback && callback();
-            }
         };
 
         var SpriteAtlas__LoadImage = WOZLLA.assets.SpriteAtlas.prototype._loadImage;

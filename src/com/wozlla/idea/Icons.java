@@ -11,4 +11,6 @@ public final class Icons {
     public static final Icon GAMEOBJECT_ICON = IconLoader.getIcon("/com/wozlla/idea/icons/obj.png");
     public static final Icon COMPONENT_ICON = IconLoader.getIcon("/com/wozlla/idea/icons/component.png");
     public static final Icon DEBUG_ICON = IconLoader.getIcon("/com/wozlla/idea/icons/debug.gif");
+    public static final Icon MOBILE_ICON = IconLoader.getIcon("/com/wozlla/idea/icons/mobile.png");
+    public static final Icon ZOOM_ICON = IconLoader.getIcon("/com/wozlla/idea/icons/zoom.png");
 }

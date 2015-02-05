@@ -4,43 +4,25 @@
     <meta charset="UTF-8">
     <title>VisualEditor</title>
     <style>
-        body { background-color: #4f4f4f; overflow-y: hidden; margin: 0; padding: 0; }
+        body { background-color: #4f4f4f; margin: 0; padding: 0; }
         #main-wrapper {
             margin: 0;
             padding: 10px 10px 10px 10px;
             -webkit-transform: scale(0.5, 0.5);
             -webkit-transform-origin: 0 0;
             position: absolute;
-            display: none;
+            /*display: none;*/
         }
         canvas {
             background-image: url(data:image/gif;base64,R0lGODdhFAAUAIACAOfn5/Hx8SwAAAAAFAAUAAACJoSPiaGt7CKAstGaLj56T5+Bi8iRRrehmFqxkhvBjmyZU4Dn+r4XADs=);
-            box-shadow: #222 0 0 3px;
+            box-shadow: #222 0 0 5px;
             border: 1px solid #000000;
         }
     </style>
 </head>
 <body>
 <div id="main-wrapper">
-    <canvas id="main" width="960" height="640"></canvas>
 </div>
-<script type="text/javascript">
-    var wrapper = document.getElementById("main-wrapper");
-    window.addEventListener("resize", function onResize() {
-        var width = parseInt(980)/2;
-        var height = parseInt(660)/2;
-        if(width < window.innerWidth) {
-            wrapper.style.left = (window.innerWidth-width)/2 + 'px';
-        } else {
-            wrapper.style.left = 0;
-        }
-        if(height < window.innerHeight) {
-            wrapper.style.top = (window.innerHeight-height)/2 + 'px';
-        } else {
-            wrapper.style.top = 0;
-        }
-    });
-</script>
 <script src="runtime.js"></script>
 <script src="Editor.js"></script>
 </body>
