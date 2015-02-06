@@ -1,5 +1,7 @@
-# WozllaIDEAPlugin
+# WozllaIDEAPlugin (Developing)
 Wozlla IDEA Plugin enhanced visual editing for WOZLLA.js
+
+![Wozlla IDEA Plugin](preview.png)
 
 ## TODOs
 

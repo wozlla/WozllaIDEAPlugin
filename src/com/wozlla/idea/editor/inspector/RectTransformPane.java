@@ -84,6 +84,7 @@ public class RectTransformPane extends CommonPane {
         this.addWithConstraints(content, gc, 1, 6, 1, 1, HORIZONTAL, getFieldComponent("width"));
         this.addWithConstraints(content, gc, 2, 6, 1, 1, HORIZONTAL, getFieldComponent("height"));
 
+        updateOtherFieldState(anchorModelField.getValue());
         anchorModelField.getComponent().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -93,7 +94,6 @@ public class RectTransformPane extends CommonPane {
             }
         });
 
-        updateOtherFieldState(anchorModelField.getValue());
     }
 
     public void destroyFields() {

@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30a69290-9492-4113-8566-f022e603eda3" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentPaneAware.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/GridBagLayoutAware.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/LabelAware.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ProjectAware.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/PropertyConfigAware.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/BooleanField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/BooleanField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/CircleField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/CircleField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ComboboxField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ComboboxField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentPane.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/Field.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/Field.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ImageSrcField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ImageSrcField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/IntField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/IntField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/NumberField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/NumberField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PaddingField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PaddingField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PointField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PointField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PropertyBindField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/PropertyBindField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" afterPath="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteAtlasField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteAtlasField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteFrameField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteFrameField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/dialog/SpriteFrameSelector.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/dialog/SpriteFrameSelector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteOffsetField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteOffsetField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" afterPath="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WozllaIDEAPlugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,7 +29,38 @@
     <favorites_list name="WozllaIDEAPlugin" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="RectTransformPane.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.1980198" vertical-offset="860" max-vertical-offset="2175">
+              <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Editor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2900" max-vertical-offset="4305">
+              <caret line="207" column="44" selection-start-line="207" selection-start-column="44" selection-end-line="207" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WOZLLA.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/WOZLLA.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="22951" max-vertical-offset="133230">
+              <caret line="1527" column="22" selection-start-line="1527" selection-start-column="22" selection-end-line="1527" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -94,14 +104,11 @@
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/WozllaIDEAPlugin.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/LabelAware.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/Icons.java" />
-        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.html" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/FieldFactory.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/ComponentPane.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/Field.java" />
-        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/dialog/SpriteFrameSelector.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/BooleanField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ImageSrcField.java" />
@@ -117,6 +124,9 @@
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/SpriteOffsetField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/StringField.java" />
         <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/TextStyleField.java" />
+        <option value="$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java" />
+        <option value="$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -198,78 +208,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WozllaIDEAPlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="editor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -306,11 +244,11 @@
       <recent name="com.wozlla.idea" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/res/com/wozlla/idea/icons" />
       <recent name="$PROJECT_DIR$/res/com/wozlla/idea/editor" />
       <recent name="$PROJECT_DIR$/src/com/wozlla/idea/action" />
       <recent name="$PROJECT_DIR$/src/com/wozlla/idea/dialog" />
-      <recent name="$PROJECT_DIR$/src/com/wozlla/idea/file" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/res/com/wozlla/idea/icons" />
@@ -603,16 +541,16 @@
       <workItem from="1422942999950" duration="17861000" />
       <workItem from="1422977585753" duration="36461000" />
       <workItem from="1423098783375" duration="21272000" />
-      <workItem from="1423195985261" duration="5327000" />
+      <workItem from="1423195985261" duration="6346000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91709000" />
+    <option name="totallyTimeSpent" value="92728000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1435" height="877" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -628,7 +566,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26920316" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26920316" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2017229" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3210191" sideWeight="0.49964106" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Animations&#9;" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -766,6 +704,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43074003" vertical-offset="973" max-vertical-offset="1860">
           <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1679#2135#0" expanded="true" />
+            <element signature="e#2134#2135#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -866,14 +809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/WOZLLA.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33197555" vertical-offset="39422" max-vertical-offset="133230">
-          <caret line="2639" column="29" selection-start-line="2639" selection-start-column="29" selection-end-line="2639" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/SceneEditorKit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="717" max-vertical-offset="2355">
@@ -897,16 +832,6 @@
         <state vertical-scroll-proportion="0.33333334" vertical-offset="1647" max-vertical-offset="6240">
           <caret line="145" column="11" selection-start-line="145" selection-start-column="11" selection-end-line="145" selection-end-column="11" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0" vertical-offset="0" max-vertical-offset="285">
-          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -961,14 +886,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64356434" vertical-offset="2795" max-vertical-offset="4230">
-          <caret line="208" column="29" selection-start-line="208" selection-start-column="29" selection-end-line="208" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/VisualEditor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36382115" vertical-offset="601" max-vertical-offset="4650">
@@ -986,17 +903,6 @@
           <folding>
             <element signature="e#3953#4270#0" expanded="true" />
             <element signature="e#4269#4270#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47326732" vertical-offset="916" max-vertical-offset="2220">
-          <caret line="91" column="17" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
-          <folding>
-            <element signature="e#3952#4222#0" expanded="true" />
-            <element signature="e#4221#4222#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1020,14 +926,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ComboboxField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="20" max-vertical-offset="690">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1152,6 +1050,56 @@
             <element signature="e#3062#3223#0" expanded="true" />
             <element signature="e#3222#3223#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/fields/ComboboxField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.039604" vertical-offset="0" max-vertical-offset="795">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+          <folding>
+            <element signature="e#668#920#0" expanded="true" />
+            <element signature="e#919#920#0" expanded="true" />
+            <element signature="e#1215#1216#0" expanded="true" />
+            <element signature="e#1268#1269#0" expanded="true" />
+            <element signature="e#1309#1310#0" expanded="true" />
+            <element signature="e#1367#1368#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/WOZLLA.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="22951" max-vertical-offset="133230">
+          <caret line="1527" column="22" selection-start-line="1527" selection-start-column="22" selection-end-line="1527" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/com/wozlla/idea/editor/Editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2900" max-vertical-offset="4305">
+          <caret line="207" column="44" selection-start-line="207" selection-start-column="44" selection-end-line="207" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.094736844" vertical-offset="0" max-vertical-offset="475">
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wozlla/idea/editor/inspector/RectTransformPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1980198" vertical-offset="860" max-vertical-offset="2175">
+          <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
