@@ -17,7 +17,6 @@ public abstract class PropertyBindField<T extends Object, C extends JComponent> 
         this.component = component;
         this.propertyName = propertyName;
 
-        this.setValue(getTargetPropertyValue());
     }
 
     public PropertyObject getTarget() {
@@ -32,6 +31,11 @@ public abstract class PropertyBindField<T extends Object, C extends JComponent> 
     @Override
     public String getName() {
         return propertyName;
+    }
+
+    public void initFieldValues() {
+        this.setValue(getTargetPropertyValue());
+        this.target.addChangeListener(this);
     }
 
     @Override

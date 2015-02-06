@@ -10,10 +10,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.wozlla.idea.Utils;
 import com.wozlla.idea.WozllaIDEAPlugin;
-import com.wozlla.idea.editor.inspector.LabelAware;
-import com.wozlla.idea.editor.inspector.ProjectAware;
 import com.wozlla.idea.scene.PropertyObject;
-import org.codehaus.jettison.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -23,7 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-public class ImageSrcField extends StringField implements DnDTarget, ProjectAware, LabelAware {
+public class ImageSrcField extends StringField implements DnDTarget, Field.ProjectAware, Field.LabelAware {
 
     protected Project project;
     protected JLabel label;
@@ -32,6 +29,7 @@ public class ImageSrcField extends StringField implements DnDTarget, ProjectAwar
     public ImageSrcField(JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
         component.setEditable(false);
+        this.initFieldValues();
         DnDManager.getInstance().registerTarget(this, component);
     }
 

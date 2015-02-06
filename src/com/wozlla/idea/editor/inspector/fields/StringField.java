@@ -1,6 +1,5 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 
 import javax.swing.*;
@@ -10,10 +9,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class StringField extends PropertyBindField<String, JTextComponent> implements GridBagLayoutAware {
+public class StringField extends PropertyBindField<String, JTextComponent> implements Field.GridBagLayoutAware {
 
     public StringField(final JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
+        this.initFieldValues();
         component.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

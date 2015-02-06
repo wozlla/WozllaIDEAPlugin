@@ -1,13 +1,12 @@
 package com.wozlla.idea.editor.inspector.fields;
 
 import com.intellij.openapi.ui.ComboBox;
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class ComboboxField<T> extends PropertyBindField<T, ComboBox> implements GridBagLayoutAware {
+public class ComboboxField<T> extends PropertyBindField<T, ComboBox> implements Field.GridBagLayoutAware {
 
     public ComboboxField(PropertyObject target, String propertyName, T[] items) {
         this(new ComboBox(), target, propertyName, items);
@@ -15,10 +14,13 @@ public class ComboboxField<T> extends PropertyBindField<T, ComboBox> implements 
 
     public ComboboxField(ComboBox component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
+        this.initFieldValues();
         component.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                updateTargetPropertyValue();
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    updateTargetPropertyValue();
+                }
             }
         });
     }

@@ -1,16 +1,16 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class IntField extends PropertyBindField<Integer, JSpinner> implements GridBagLayoutAware {
+public class IntField extends PropertyBindField<Integer, JSpinner> implements Field.GridBagLayoutAware {
 
     public IntField(JSpinner component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
+        this.initFieldValues();
         component.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

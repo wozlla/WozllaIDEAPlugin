@@ -1,6 +1,5 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -10,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class PaddingField extends PropertyBindField<JSONArray, JPanel> implements GridBagLayoutAware, ChangeListener {
+public class PaddingField extends PropertyBindField<JSONArray, JPanel> implements Field.GridBagLayoutAware, ChangeListener {
 
     JSpinner topSpinner = new JSpinner();
     JSpinner leftSpinner = new JSpinner();
@@ -24,6 +23,7 @@ public class PaddingField extends PropertyBindField<JSONArray, JPanel> implement
         panel.add(leftSpinner);
         panel.add(bottomSpinner);
         panel.add(rightSpinner);
+        this.initFieldValues();
         topSpinner.addChangeListener(this);
         leftSpinner.addChangeListener(this);
         bottomSpinner.addChangeListener(this);

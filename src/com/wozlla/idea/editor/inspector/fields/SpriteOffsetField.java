@@ -1,6 +1,5 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -10,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class SpriteOffsetField extends PropertyBindField<JSONArray, JPanel> implements GridBagLayoutAware, ChangeListener {
+public class SpriteOffsetField extends PropertyBindField<JSONArray, JPanel> implements Field.GridBagLayoutAware, ChangeListener {
 
     protected JSpinner xSpinner = new JSpinner();
     protected JSpinner ySpinner = new JSpinner();
@@ -22,7 +21,7 @@ public class SpriteOffsetField extends PropertyBindField<JSONArray, JPanel> impl
         ySpinner.setModel(new SpinnerNumberModel(0, 0.0, 1.0, 0.01));
         panel.add(xSpinner);
         panel.add(ySpinner);
-        setValue(getTargetPropertyValue());
+        this.initFieldValues();
         xSpinner.addChangeListener(this);
         ySpinner.addChangeListener(this);
     }

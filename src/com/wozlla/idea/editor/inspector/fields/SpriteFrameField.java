@@ -1,9 +1,7 @@
 package com.wozlla.idea.editor.inspector.fields;
 
 import com.wozlla.idea.dialog.SpriteFrameSelector;
-import com.wozlla.idea.editor.inspector.PropertyConfigAware;
 import com.wozlla.idea.editor.inspector.ComponentPane;
-import com.wozlla.idea.editor.inspector.ComponentPaneAware;
 import com.wozlla.idea.scene.ComponentConfig;
 import com.wozlla.idea.scene.PropertyObject;
 import org.codehaus.jettison.json.JSONException;
@@ -14,7 +12,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SpriteFrameField extends StringField implements PropertyConfigAware, ComponentPaneAware {
+public class SpriteFrameField extends StringField implements Field.PropertyConfigAware, Field.ComponentPaneAware {
 
     protected ComponentConfig.PropertyConfig config;
     protected ComponentPane componentPane;
@@ -24,6 +22,7 @@ public class SpriteFrameField extends StringField implements PropertyConfigAware
     public SpriteFrameField(final JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
         component.setEditable(false);
+        this.initFieldValues();
         component.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

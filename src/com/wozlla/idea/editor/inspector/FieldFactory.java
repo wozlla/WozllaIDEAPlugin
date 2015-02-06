@@ -25,6 +25,7 @@ public class FieldFactory {
         fieldMap.put("spriteAtlas".toLowerCase(), SpriteAtlasField.class);
         fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);
         fieldMap.put("spriteOffset".toLowerCase(), SpriteOffsetField.class);
+        fieldMap.put("textStyle".toLowerCase(), TextStyleField.class);
     }
 
     public static Field create(String type, PropertyObject target, String propertyName) {

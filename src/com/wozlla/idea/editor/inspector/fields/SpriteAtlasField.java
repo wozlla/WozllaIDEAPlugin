@@ -10,7 +10,6 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.wozlla.idea.Utils;
 import com.wozlla.idea.WozllaIDEAPlugin;
-import com.wozlla.idea.editor.inspector.ProjectAware;
 import com.wozlla.idea.scene.PropertyObject;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -19,7 +18,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
 
-public class SpriteAtlasField extends StringField implements DnDTarget, ProjectAware {
+public class SpriteAtlasField extends StringField implements DnDTarget, Field.ProjectAware {
 
     protected Project project;
     protected VirtualFile boundFile;
@@ -28,6 +27,7 @@ public class SpriteAtlasField extends StringField implements DnDTarget, ProjectA
     public SpriteAtlasField(JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
         component.setEditable(false);
+        this.initFieldValues();
         DnDManager.getInstance().registerTarget(this, component);
     }
 

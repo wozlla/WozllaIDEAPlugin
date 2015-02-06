@@ -1,6 +1,5 @@
 package com.wozlla.idea.editor.inspector.fields;
 
-import com.wozlla.idea.editor.inspector.GridBagLayoutAware;
 import com.wozlla.idea.scene.PropertyObject;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -10,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class CircleField extends PropertyBindField<JSONArray, JPanel> implements GridBagLayoutAware, ChangeListener {
+public class CircleField extends PropertyBindField<JSONArray, JPanel> implements Field.GridBagLayoutAware, ChangeListener {
 
     JSpinner centerX = new JSpinner();
     JSpinner centerY = new JSpinner();
@@ -22,10 +21,10 @@ public class CircleField extends PropertyBindField<JSONArray, JPanel> implements
         panel.add(centerX);
         panel.add(centerY);
         panel.add(radius);
+        this.initFieldValues();
         centerX.addChangeListener(this);
         centerY.addChangeListener(this);
         radius.addChangeListener(this);
-        this.setValue(getTargetPropertyValue());
     }
 
     @Override

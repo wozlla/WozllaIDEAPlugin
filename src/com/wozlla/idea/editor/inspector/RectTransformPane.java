@@ -87,7 +87,9 @@ public class RectTransformPane extends CommonPane {
         anchorModelField.getComponent().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                updateOtherFieldState(e.getItem().toString());
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    updateOtherFieldState(e.getItem().toString());
+                }
             }
         });
 
