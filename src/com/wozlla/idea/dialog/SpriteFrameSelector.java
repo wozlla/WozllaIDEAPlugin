@@ -97,7 +97,9 @@ public class SpriteFrameSelector extends DialogWrapper {
                 frameCombobox.addItemListener(new ItemListener() {
                     @Override
                     public void itemStateChanged(ItemEvent e) {
-                        selectFrame((FrameItem)e.getItem());
+                        if(e.getStateChange() == ItemEvent.SELECTED) {
+                            selectFrame((FrameItem) e.getItem());
+                        }
                     }
                 });
                 frameCombobox.setEditable(false);
