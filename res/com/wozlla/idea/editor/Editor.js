@@ -199,7 +199,12 @@
 
         bridge.onTransformPropertyChange = function(uuid, name, newValue, oldValue) {
             var gameObject = builder.getByUUID(uuid);
-            gameObject.transform[name] = name === 'relative' ? newValue === 'true' : parseFloat(newValue);
+            if(name === 'anchorMode') {
+                gameObject.transform.anchorMode = WOZLLA.RectTransform.getMode(newValue);
+                console.log(newValue + " " + WOZLLA.RectTransform.getMode(newValue))
+            } else {
+                gameObject.transform[name] = name === 'relative' ? newValue === 'true' : parseFloat(newValue);
+            }
             if(gameObject.transform.dirty) {
                 dirty = true;
             }
