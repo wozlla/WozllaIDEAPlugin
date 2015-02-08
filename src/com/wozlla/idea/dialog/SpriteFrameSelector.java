@@ -27,6 +27,7 @@ public class SpriteFrameSelector extends DialogWrapper {
     private JSONObject spriteData;
     private FrameItem selectedFrame;
     private SpriteAtlasPanel spriteAtlasPanel;
+    private JLabel sizeLabel;
     private String initFrame;
     private java.util.List<FrameItem> frames;
     private JComboBox<FrameItem> frameCombobox;
@@ -63,7 +64,7 @@ public class SpriteFrameSelector extends DialogWrapper {
                     }
                 });
                 JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                JLabel frameComboLabel = new JLabel("Search: ");
+                JLabel frameComboLabel = new JLabel("Frames: ");
 
                 FrameItem initFrameItem = new FrameItem("none", null);
                 frames = new ArrayList<FrameItem>();
@@ -103,8 +104,12 @@ public class SpriteFrameSelector extends DialogWrapper {
                     }
                 });
                 frameCombobox.setEditable(false);
+
+                sizeLabel = new JLabel();
+
                 toolbar.add(frameComboLabel);
                 toolbar.add(frameCombobox);
+                toolbar.add(sizeLabel);
                 container.add(toolbar, BorderLayout.NORTH);
                 JBScrollPane scrollPane = new JBScrollPane(spriteAtlasPanel);
                 scrollPane.setAutoscrolls(true);
@@ -139,6 +144,7 @@ public class SpriteFrameSelector extends DialogWrapper {
                 (int) frame.getDouble("w"),
                 (int) frame.getDouble("h")
             );
+            sizeLabel.setText("size: " + rect.width + 'x' + rect.height);
             spriteAtlasPanel.rect = rect;
             spriteAtlasPanel.repaint();
             this.selectedFrame = frameItem;
