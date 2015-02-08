@@ -136,7 +136,7 @@ public class Inspector extends JBPanel {
         gc.gridy = 0;
         gc.weightx = 1;
         gc.weighty = 0;
-        this.add(new BasicPane(gameObject), gc);
+        this.add(new BasicPane(project, gameObject), gc);
 
         gc.gridy ++;
 

@@ -10,9 +10,13 @@ public class WozllaIDEAPlugin {
     public static final String EDITOR_DIR_NAME = "Editor";
     public static final String COMPILE_SHELL_PATH = "Editor/compile.sh";
     public static final String COMPILED_FILE_PATH = "Editor/externals.js";
+    public static final String RENDER_LAYERS_PATH = "Editor/render_layers.json";
 
     public static final String SPRITE_ATLAS_SUFFIX = ".tt.json";
+    public static final String SCENE_FILE_SUFFIX = ".jsonx";
     public static final Pattern IMAGE_PATTERN = Pattern.compile("(.*/)*.+\\.(png|jpg)$", Pattern.CASE_INSENSITIVE);
+
+    public static final String DEFAULT_RENDER_LAYER = "default";
 
     public static final String COORDS_IMAGE_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAKoAAACqCAMAAAAKqCSwAAAAgVBMVEUAAACtaGgAAAAAA" +
             "AAAAAClY2MAAAADAAAEAAC4bm4AAAACAAADAAACAAADAAB/MQADAAADAAAKCwkDAAABenYCVlQGAQBaIgACQkBSHwCnY2MA//b/ZgC" +

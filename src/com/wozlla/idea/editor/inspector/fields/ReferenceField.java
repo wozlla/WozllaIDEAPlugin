@@ -17,52 +17,24 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 
-public class SpriteAtlasField extends StringField implements DnDTarget, Field.ProjectAware {
-
-    private static String history;
+public class ReferenceField extends StringField implements DnDTarget, Field.ProjectAware {
 
     protected Project project;
-    protected VirtualFile boundFile;
-    protected JSONObject spriteData;
 
-    public SpriteAtlasField(JTextComponent component, PropertyObject target, String propertyName) {
+    public ReferenceField(JTextComponent component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
         component.setEditable(false);
         this.initFieldValues();
         DnDManager.getInstance().registerTarget(this, component);
     }
 
-    public SpriteAtlasField(PropertyObject target, String propertyName) {
+    public ReferenceField(PropertyObject target, String propertyName) {
         this(new JTextField(), target, propertyName);
     }
 
     public void setProject(Project project) {
         this.project = project;
-        String value = getValue();
-        if(null == value || "".equals(value)) {
-            if(history != null) {
-                setValue(history);
-                updateTargetPropertyValue();
-            }
-        }
-        this.boundFile = project.getBaseDir().findFileByRelativePath(getValue());
-    }
-
-    public VirtualFile getBoundFile() {
-        return boundFile;
-    }
-
-    public JSONObject getSpriteData() {
-        if(spriteData == null) {
-            try {
-                spriteData = Utils.virtualFile2JSONObject(boundFile);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return spriteData;
     }
 
     public void destroy() {
@@ -88,12 +60,9 @@ public class SpriteAtlasField extends StringField implements DnDTarget, Field.Pr
         File file = getSingleFile(event);
         if(file != null) {
             VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
-            if (virtualFile != null) {
-                this.boundFile = virtualFile;
-                this.spriteData = null;
+            if(virtualFile != null) {
                 this.setValue(Utils.getProjectPath(project, virtualFile));
-                history = this.getValue();
-                updateTargetPropertyValue();
+                this.updateTargetPropertyValue();
             }
         }
     }
@@ -101,7 +70,7 @@ public class SpriteAtlasField extends StringField implements DnDTarget, Field.Pr
     @Override
     public boolean update(DnDEvent event) {
         File file = getSingleFile(event);
-        if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SPRITE_ATLAS_SUFFIX)) {
+        if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
             event.setDropPossible(true);
         } else {
             event.setDropPossible(false);

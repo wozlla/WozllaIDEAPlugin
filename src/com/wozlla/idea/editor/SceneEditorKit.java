@@ -52,6 +52,7 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
         inspectorContainer.setPreferredSize(new Dimension(200, 200));
         hierarchyContainer.setMinimumSize(new Dimension(200, 200));
         inspectorContainer.setMinimumSize(new Dimension(200, 200));
+        inspectorContainer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         visualEditor = new VisualEditor(this.project, rootGameObject);
         visualEditor.setPreferredSize(new Dimension(600, 200));
@@ -165,14 +166,14 @@ public class SceneEditorKit extends JPanel implements SceneChangeListener {
             public void run() {
                 if (actionId == updateDocumentActionId) {
                     try {
+                        System.out.println("save");
                         document.setText(rootJSONObject.toString(2));
-                    } catch(JSONException e) {
+                    } catch (Throwable e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         });
-
     }
 
 

@@ -60,6 +60,7 @@ public class GameObject extends PropertyObject {
         this.checkProperty("name");
         this.ensureProperty("rect", false);
         this.ensureProperty("id", "");
+        this.ensureProperty("reference", "");
         this.ensureProperty("z", 0);
         this.ensureProperty("active", true);
         this.ensureProperty("visible", true);
@@ -86,6 +87,10 @@ public class GameObject extends PropertyObject {
 
     public String getUUID() {
         return this.uuid;
+    }
+
+    public boolean isRoot() {
+        return this.getParent() == null;
     }
 
     public Transform getTransform() {

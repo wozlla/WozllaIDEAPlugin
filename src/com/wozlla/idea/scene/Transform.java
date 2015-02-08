@@ -37,4 +37,24 @@ public class Transform extends PropertyObject {
             this.ensureProperty("relative", false);
         }
     }
+
+    public void deltaX(double deltaX) {
+        String property = type == RECT ? "px" : "x";
+        try {
+            double x = this.source.getDouble(property);
+            this.setProperty(property, x + deltaX);
+        } catch(JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deltaY(double deltaY) {
+        String property = type == RECT ? "py" : "y";
+        try {
+            double y = this.source.getDouble(property);
+            this.setProperty(property, y + deltaY);
+        } catch(JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

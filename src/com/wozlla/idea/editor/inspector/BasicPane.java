@@ -1,9 +1,7 @@
 package com.wozlla.idea.editor.inspector;
 
-import com.wozlla.idea.editor.inspector.fields.BooleanField;
-import com.wozlla.idea.editor.inspector.fields.Field;
-import com.wozlla.idea.editor.inspector.fields.IntField;
-import com.wozlla.idea.editor.inspector.fields.StringField;
+import com.intellij.openapi.project.Project;
+import com.wozlla.idea.editor.inspector.fields.*;
 import com.wozlla.idea.scene.GameObject;
 
 import javax.swing.*;
@@ -15,19 +13,26 @@ import static java.awt.GridBagConstraints.*;
 
 public class BasicPane extends CommonPane {
 
+    private Project project;
     private GameObject gameObject;
     private Map<String, Object> fieldMap = new HashMap<String, Object>();
 
-    public BasicPane(GameObject gameObject) {
+    public BasicPane(Project project, GameObject gameObject) {
         super("Basic", new JPanel(), false);
+        this.project = project;
         this.gameObject = gameObject;
 
-        fieldMap.put("name", new StringField(gameObject, "name"));
-        fieldMap.put("id", new StringField(gameObject, "id"));
-        fieldMap.put("z", new IntField(gameObject, "z"));
-        fieldMap.put("active", new BooleanField(gameObject, "active"));
-        fieldMap.put("visible", new BooleanField(gameObject, "visible"));
-        fieldMap.put("touchable", new BooleanField(gameObject, "touchable"));
+        fieldMap.put("name", new StringField(this.gameObject, "name"));
+        fieldMap.put("id", new StringField(this.gameObject, "id"));
+        fieldMap.put("z", new IntField(this.gameObject, "z"));
+        fieldMap.put("active", new BooleanField(this.gameObject, "active"));
+        fieldMap.put("visible", new BooleanField(this.gameObject, "visible"));
+        fieldMap.put("touchable", new BooleanField(this.gameObject, "touchable"));
+        if(!this.gameObject.isRoot()) {
+            fieldMap.put("reference", new ReferenceField(this.gameObject, "reference"));
+            ((Field.ProjectAware)fieldMap.get("reference")).setProject(this.project);
+        }
+
 
         JPanel content = (JPanel)this.getContent();
         content.setLayout(new GridBagLayout());
@@ -50,6 +55,11 @@ public class BasicPane extends CommonPane {
 
         this.addWithConstraints(content, gc, 0, 5, 1, 1, HORIZONTAL, new JLabel("touchable"), 0.3);
         this.addWithConstraints(content, gc, 1, 5, 2, 1, HORIZONTAL, getFieldComponent("touchable"));
+
+        if(!this.gameObject.isRoot()) {
+            this.addWithConstraints(content, gc, 0, 6, 1, 1, HORIZONTAL, new JLabel("reference"), 0.3);
+            this.addWithConstraints(content, gc, 1, 6, 2, 1, HORIZONTAL, getFieldComponent("reference"));
+        }
 
     }
 

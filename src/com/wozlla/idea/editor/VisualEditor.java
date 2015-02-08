@@ -208,8 +208,10 @@ public class VisualEditor extends JPanel {
 
     private class JavascriptBridge implements BrowserFunction {
 
+        private GameObject selectedGameObject;
+
         @Override
-        public JSValue invoke(JSValue... jsValues) {
+        public JSValue invoke(final JSValue... jsValues) {
             String funcName = jsValues[0].getString();
             System.out.println("bridgeInvoke [" + funcName + "]");
             if("editorReady".equals(funcName)) {
@@ -257,6 +259,34 @@ public class VisualEditor extends JPanel {
             }
             else if("updateComponentConfig".equals(funcName)) {
                 project.getComponent(IComponentConfigManager.class).updateConfig(jsValues[1].getString());
+            } else if("moveX".equals(funcName)) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(selectedGameObject != null) {
+                            selectedGameObject.getTransform().deltaX(jsValues[1].getNumber());
+                        }
+                    }
+                });
+            } else if("moveY".equals(funcName)) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (selectedGameObject != null) {
+                            selectedGameObject.getTransform().deltaY(jsValues[1].getNumber());
+                        }
+                    }
+                });
+            } else if("moveXY".equals(funcName)) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (selectedGameObject != null) {
+                            selectedGameObject.getTransform().deltaX(jsValues[1].getNumber());
+                            selectedGameObject.getTransform().deltaY(jsValues[2].getNumber());
+                        }
+                    }
+                });
             }
             return null;
         }
@@ -277,7 +307,9 @@ public class VisualEditor extends JPanel {
         public void onGameObjectSelectionChange(GameObject[] objArray) {
             if(objArray != null && objArray.length == 1) {
                 execute("bridge.onGameObjectSelectionChange('" + objArray[0].getUUID() + "');");
+                selectedGameObject = objArray[0];
             } else {
+                selectedGameObject = null;
                 execute("bridge.onGameObjectSelectionChange();");
             }
         }

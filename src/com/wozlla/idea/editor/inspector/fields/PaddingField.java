@@ -9,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class PaddingField extends PropertyBindField<JSONArray, JPanel> implements Field.GridBagLayoutAware, ChangeListener {
+public class PaddingField extends PropertyBindField<JSONArray, JPanel> implements Field.GridBagLayoutAware, Field.LabelAware, ChangeListener {
 
     JSpinner topSpinner = new JSpinner();
     JSpinner leftSpinner = new JSpinner();
@@ -29,6 +29,11 @@ public class PaddingField extends PropertyBindField<JSONArray, JPanel> implement
         bottomSpinner.addChangeListener(this);
         rightSpinner.addChangeListener(this);
         this.setValue(getTargetPropertyValue());
+    }
+
+    @Override
+    public void setLabel(JLabel label) {
+        label.setToolTipText("(t,l,b,r)(x,y,w,h)");
     }
 
     @Override

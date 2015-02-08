@@ -4,12 +4,15 @@ import com.intellij.ide.dnd.*;
 import com.intellij.ide.projectView.impl.ProjectViewPane;
 import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.awt.RelativeRectangle;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.UIUtil;
 import com.thaiopensource.xml.dtd.om.Def;
 import com.wozlla.idea.Icons;
+import com.wozlla.idea.WozllaIDEAPlugin;
 import com.wozlla.idea.scene.GameObject;
 import com.wozlla.idea.scene.PropertyObject;
 import com.wozlla.idea.scene.Transform;
@@ -27,6 +30,7 @@ import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 
@@ -34,7 +38,6 @@ public class Hierarchy extends Tree implements ActionListener {
 
     public static final String ACTION_ADD_GAMEOBJECT = "Add GameObject";
     public static final String ACTION_ADD_GAMEOBJECT_R = "Add GameObject(RectTransform)";
-    public static final String ACTION_ADD_REFERENCE = "Add Reference";
     public static final String ACTION_DELETE = "Delete";
     public static final String ACTION_DUPLICATE = "Dumplicate";
 
@@ -78,8 +81,6 @@ public class Hierarchy extends Tree implements ActionListener {
         item.addActionListener(this);
         popupMenu.add(item = new JMenuItem(ACTION_ADD_GAMEOBJECT_R));
         item.addActionListener(this);
-        popupMenu.add(item = new JMenuItem(ACTION_ADD_REFERENCE));
-        item.addActionListener(this);
         popupMenu.add(new JPopupMenu.Separator());
         popupMenu.add(item = new JMenuItem(ACTION_DELETE));
         item.addActionListener(this);
@@ -120,9 +121,6 @@ public class Hierarchy extends Tree implements ActionListener {
         }
         else if(ACTION_ADD_GAMEOBJECT_R.equals(cmd)) {
             obj.addGameObject(GameObject.create(rootGameObject, Transform.RECT));
-        }
-        else if(ACTION_ADD_REFERENCE.equals(cmd)) {
-
         }
         else if(ACTION_DELETE.equals(cmd)) {
             if(obj == rootGameObject) {
@@ -268,7 +266,12 @@ public class Hierarchy extends Tree implements ActionListener {
         @Override
         public boolean update(DnDEvent event) {
             if(!(event.getAttachedObject() instanceof GameObjectNode)) {
-                event.setDropPossible(false);
+                File file = getSingleFile(event);
+                if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
+                    event.setDropPossible(true);
+                } else {
+                    event.setDropPossible(false);
+                }
                 return false;
             }
             final GameObjectNode draggedNode = (GameObjectNode)event.getAttachedObject();
@@ -306,6 +309,18 @@ public class Hierarchy extends Tree implements ActionListener {
             if(!event.isDropPossible()) {
                 return;
             }
+
+            if(!(event.getAttachedObject() instanceof GameObjectNode)) {
+                File file = getSingleFile(event);
+                if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
+                    VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
+                    if(virtualFile != null) {
+
+                    }
+                }
+                return;
+            }
+
             final GameObjectNode draggedNode = (GameObjectNode)event.getAttachedObject();
             final Point point = event.getPoint();
             final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
@@ -341,6 +356,18 @@ public class Hierarchy extends Tree implements ActionListener {
                     targetNode.gameObject.getParent().insertBefore(draggedNode.gameObject, targetNode.gameObject);
                     break;
             }
+        }
+
+        private File getSingleFile(DnDEvent event) {
+            java.util.List<File> result;
+            Object attached = event.getAttachedObject();
+            if (attached instanceof TransferableWrapper) {
+                result = ((TransferableWrapper)attached).asFileList();
+                if(result != null && result.size() == 1) {
+                    return result.get(0);
+                }
+            }
+            return null;
         }
     }
 

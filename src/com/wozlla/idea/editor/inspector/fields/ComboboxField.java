@@ -8,14 +8,23 @@ import java.awt.event.ItemListener;
 
 public class ComboboxField<T> extends PropertyBindField<T, ComboBox> implements Field.GridBagLayoutAware {
 
+    public ComboboxField(ComboBox component, PropertyObject target, String propertyName) {
+        this(component, target, propertyName, null);
+    }
+
     public ComboboxField(PropertyObject target, String propertyName, T[] items) {
         this(new ComboBox(), target, propertyName, items);
     }
 
-    public ComboboxField(ComboBox component, PropertyObject target, String propertyName) {
+    public ComboboxField(ComboBox component, PropertyObject target, String propertyName, T[] items) {
         super(component, target, propertyName);
+        if(items != null) {
+            for (Object item : items) {
+                component.addItem(item);
+            }
+        }
         this.initFieldValues();
-        component.addItemListener(new ItemListener() {
+        this.getComponent().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) {
@@ -23,13 +32,6 @@ public class ComboboxField<T> extends PropertyBindField<T, ComboBox> implements 
                 }
             }
         });
-    }
-
-    public ComboboxField(ComboBox component, PropertyObject target, String propertyName, T[] items) {
-        this(component, target, propertyName);
-        for(Object item: items) {
-            component.addItem(item);
-        }
     }
 
     @Override

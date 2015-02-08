@@ -1728,7 +1728,7 @@ var WOZLLA;
             this._right = rectTransform.right || 0;
             this._bottom = rectTransform.bottom || 0;
             this._px = rectTransform.px || 0;
-            this._px = rectTransform.py || 0;
+            this._py = rectTransform.py || 0;
             this.dirty = true;
         };
         /**
@@ -1994,12 +1994,17 @@ var WOZLLA;
             WOZLLA.Assert.isNotUndefined(config);
             return config;
         };
-        Component.extendConfig = function (Type) {
+        Component.extendConfig = function (Type, filter) {
+            if (filter === void 0) { filter = null; }
             var name = Component.getName(Type);
-            return {
+            var config = {
                 group: name,
-                properties: Component.getConfig(name).properties
+                properties: Component.getConfig(name).properties.slice(0)
             };
+            if (filter) {
+                config.properties = config.properties.filter(filter);
+            }
+            return config;
         };
         Component.ctorMap = {};
         Component.configMap = {};
@@ -2350,6 +2355,34 @@ var WOZLLA;
             enumerable: true,
             configurable: true
         });
+        /**
+         * get active in tree
+         * @method isActive
+         * @member WOZLLA.GameObject
+         * @return {boolean}
+         */
+        GameObject.prototype.isActive = function () {
+            var active;
+            var o = this;
+            while (active = o._active) {
+                o = o._parent;
+            }
+            return active;
+        };
+        /**
+         * get visible in tree
+         * @method isVisible
+         * @member WOZLLA.GameObject
+         * @return {boolean}
+         */
+        GameObject.prototype.isVisible = function () {
+            var visible;
+            var o = this;
+            while (visible = o._visible) {
+                o = o._parent;
+            }
+            return visible;
+        };
         /**
          * set z order
          * @param value
@@ -3175,41 +3208,71 @@ var WOZLLA;
              * @property {boolean} enabled
              */
             this.enabled = true;
+            this.inSchedule = true;
             this.canvas = null;
             this.canvasOffset = null;
             this.channelMap = {};
             var me = this;
-            var nav = window.navigator;
+            //var nav:any = window.navigator;
             me.canvas = canvas;
-            me.canvasOffset = getCanvasOffset(canvas);
             me.touchScale = touchScale;
-            me.hammer = new Hammer(canvas, {
-                transform: false,
-                doubletap: false,
-                hold: false,
-                rotate: false,
-                pinch: false
-            });
-            me.hammer.on(Touch.enabledGestures || 'touch release tap swipe drag dragstart dragend', function (e) {
-                if (e.type === 'release' || me.enabled) {
-                    WOZLLA.Scheduler.getInstance().scheduleFrame(function () {
-                        me.onGestureEvent(e);
-                    });
-                }
-            });
+            me.updateCanvasOffset();
+            if (window['Hammer']) {
+                me.hammer = new Hammer(canvas, {
+                    transform: false,
+                    doubletap: false,
+                    hold: false,
+                    rotate: false,
+                    pinch: false
+                });
+                me.hammer.on(Touch.enabledGestures || 'hammer.input tap swipe pan panstart panend', function (e) {
+                    if (e.type === 'hammer.input' && !e.isFinal && !e.isFirst) {
+                        return;
+                    }
+                    if (e.isFinal || me.enabled) {
+                        if (me.inSchedule) {
+                            WOZLLA.Scheduler.getInstance().scheduleFrame(function () {
+                                me.onGestureEvent(e);
+                            });
+                        }
+                        else {
+                            me.onGestureEvent(e);
+                        }
+                    }
+                });
+            }
+            else {
+                me.canvas.addEventListener('touchstart', function () {
+                    console.error('please import hammer.js');
+                });
+                me.canvas.addEventListener('mousedown', function () {
+                    console.error('please import hammer.js');
+                });
+            }
         }
         Touch.setEanbledGestures = function (gestures) {
             this.enabledGestures = gestures;
+        };
+        Touch.prototype.updateCanvasOffset = function () {
+            this.canvasOffset = getCanvasOffset(this.canvas);
         };
         Touch.prototype.onGestureEvent = function (e) {
             var x, y, i, len, touch, identifier, channel, changedTouches, target, type = e.type, stage = WOZLLA.Director.getInstance().stage;
             var me = this;
             var canvasScale = this.touchScale || 1;
-            changedTouches = e.gesture.srcEvent.changedTouches;
+            if (type === 'hammer.input') {
+                if (e.isFirst) {
+                    type = 'touch';
+                }
+                else if (e.isFinal) {
+                    type = 'release';
+                }
+            }
+            changedTouches = e.srcEvent.changedTouches;
             if (!changedTouches) {
                 identifier = 1;
-                x = e.gesture.srcEvent.pageX - me.canvasOffset.x;
-                y = e.gesture.srcEvent.pageY - me.canvasOffset.y;
+                x = e.srcEvent.pageX - me.canvasOffset.x;
+                y = e.srcEvent.pageY - me.canvasOffset.y;
                 x *= canvasScale;
                 y *= canvasScale;
                 if (type === 'touch') {
@@ -3250,14 +3313,22 @@ var WOZLLA;
             return {
                 onGestureEvent: function (e, target, x, y, identifier) {
                     var touchEvent, type = e.type, stage = WOZLLA.Director.getInstance().stage;
+                    if (type === 'hammer.input') {
+                        if (e.isFirst) {
+                            type = 'touch';
+                        }
+                        else if (e.isFinal) {
+                            type = 'release';
+                        }
+                    }
                     switch (type) {
-                        case 'drag':
+                        case 'pan':
                             if (!touchMoveDetection) {
                                 target = touchTarget;
                                 break;
                             }
-                        case 'tap':
                         case 'release':
+                        case 'tap':
                             target = stage.getUnderPoint(x, y, true);
                             break;
                     }
@@ -3270,7 +3341,7 @@ var WOZLLA;
                         type: type,
                         bubbles: true,
                         touch: target,
-                        gesture: e.gesture,
+                        gesture: e,
                         identifier: identifier,
                         touchMoveDetection: false
                     });
@@ -3508,7 +3579,7 @@ var WOZLLA;
              * @static
              * @member WOZLLA.renderer.IMaterial
              */
-            IMaterial.DEFAULT = 'Builtin_default';
+            IMaterial.DEFAULT = 'builtin_default_layer';
         })(IMaterial = renderer.IMaterial || (renderer.IMaterial = {}));
     })(renderer = WOZLLA.renderer || (WOZLLA.renderer = {}));
 })(WOZLLA || (WOZLLA = {}));
@@ -4379,6 +4450,16 @@ var WOZLLA;
                 enumerable: true,
                 configurable: true
             });
+            GLTextureAsset.prototype.unload = function () {
+                if (!this._glTexture)
+                    return;
+                var renderer = WOZLLA.Director.getInstance().renderer;
+                if (!renderer) {
+                    throw new Error("Director not initialized");
+                }
+                renderer.textureManager.deleteTexture(this._glTexture);
+                _super.prototype.unload.call(this);
+            };
             GLTextureAsset.prototype._generateTexture = function (image) {
                 var renderer = WOZLLA.Director.getInstance().renderer;
                 if (!renderer) {
@@ -4539,6 +4620,7 @@ var WOZLLA;
                 xhr = new XMLHttpRequest();
                 xhr.responseType = options.responseType;
                 xhr.onreadystatechange = function () {
+                    var data;
                     var parser;
                     if (xhr.readyState === 4) {
                         xhr.onreadystatechange = empty;
@@ -4546,7 +4628,17 @@ var WOZLLA;
                         parser = contentParser[options.dataType] || function () {
                             return xhr.responseText;
                         };
-                        options.success(parser(xhr));
+                        try {
+                            data = parser(xhr);
+                        }
+                        catch (e) {
+                            options.error({
+                                code: Ajax.ERROR_PARSE,
+                                message: e.message
+                            });
+                            return;
+                        }
+                        options.success(data);
                     }
                 };
                 xhr.open(options.method, options.url, options.async);
@@ -4575,6 +4667,7 @@ var WOZLLA;
              * @readonly
              */
             Ajax.ERROR_SERVER = 2;
+            Ajax.ERROR_PARSE = 3;
             return Ajax;
         })();
         utils.Ajax = Ajax;
@@ -5113,8 +5206,83 @@ var WOZLLA;
         math.Rectangle = Rectangle;
     })(math = WOZLLA.math || (WOZLLA.math = {}));
 })(WOZLLA || (WOZLLA = {}));
+var WOZLLA;
+(function (WOZLLA) {
+    var component;
+    (function (component) {
+        var PropertyConverter = (function () {
+            function PropertyConverter() {
+            }
+            PropertyConverter.array2point = function (arr) {
+                return new WOZLLA.math.Point(arr[0], arr[1]);
+            };
+            PropertyConverter.array2rect = function (arr) {
+                return new WOZLLA.math.Rectangle(arr[0], arr[1], arr[2], arr[3]);
+            };
+            PropertyConverter.array2circle = function (arr) {
+                return new WOZLLA.math.Circle(arr[0], arr[1], arr[2]);
+            };
+            PropertyConverter.json2TextStyle = function (json) {
+                var style = new component.TextStyle();
+                for (var i in json) {
+                    style[i] = json[i];
+                }
+                return style;
+            };
+            PropertyConverter.array2Padding = function (arr) {
+                return new WOZLLA.layout.Padding(arr[0], arr[1], arr[2], arr[3]);
+            };
+            PropertyConverter.array2Margin = function (arr) {
+                return new WOZLLA.layout.Margin(arr[0], arr[1], arr[2], arr[3]);
+            };
+            return PropertyConverter;
+        })();
+        component.PropertyConverter = PropertyConverter;
+    })(component = WOZLLA.component || (WOZLLA.component = {}));
+})(WOZLLA || (WOZLLA = {}));
+/// <reference path="PropertyConverter.ts"/>
+var WOZLLA;
+(function (WOZLLA) {
+    var component;
+    (function (component) {
+        var PropertySnip = (function () {
+            function PropertySnip() {
+            }
+            PropertySnip.createRect = function (propertyName) {
+                return {
+                    name: propertyName,
+                    type: 'rect',
+                    convert: component.PropertyConverter.array2rect,
+                    defaultValue: [0, 0, 100, 100]
+                };
+            };
+            PropertySnip.createCircle = function (propertyName) {
+                return {
+                    name: propertyName,
+                    type: 'circle',
+                    convert: component.PropertyConverter.array2circle,
+                    defaultValue: [0, 0, 50]
+                };
+            };
+            PropertySnip.createSpriteFrame = function (propertName, fromSpriteAtlas) {
+                if (fromSpriteAtlas === void 0) { fromSpriteAtlas = 'spriteAtlasSrc'; }
+                return {
+                    name: propertName,
+                    type: 'spriteFrame',
+                    defaultValue: '',
+                    data: {
+                        fromSpriteAtlas: fromSpriteAtlas
+                    }
+                };
+            };
+            return PropertySnip;
+        })();
+        component.PropertySnip = PropertySnip;
+    })(component = WOZLLA.component || (WOZLLA.component = {}));
+})(WOZLLA || (WOZLLA = {}));
 /// <reference path="../../core/Collider.ts"/>
 /// <reference path="../../math/Rectangle.ts"/>
+/// <reference path="../PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var component;
@@ -5136,6 +5304,12 @@ var WOZLLA;
             return CircleCollider;
         })(WOZLLA.Collider);
         component.CircleCollider = CircleCollider;
+        WOZLLA.Component.register(CircleCollider, {
+            name: 'CircleCollider',
+            properties: [
+                component.PropertySnip.createCircle('region')
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="../../core/Collider.ts"/>
@@ -5161,10 +5335,15 @@ var WOZLLA;
             return MaskCollider;
         })(WOZLLA.Collider);
         component.MaskCollider = MaskCollider;
+        WOZLLA.Component.register(MaskCollider, {
+            name: 'MaskCollider',
+            properties: []
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="../../core/Collider.ts"/>
 /// <reference path="../../math/Rectangle.ts"/>
+/// <reference path="../PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var component;
@@ -5193,6 +5372,12 @@ var WOZLLA;
             return RectCollider;
         })(WOZLLA.Collider);
         component.RectCollider = RectCollider;
+        WOZLLA.Component.register(RectCollider, {
+            name: 'RectCollider',
+            properties: [
+                component.PropertySnip.createRect('region')
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 var WOZLLA;
@@ -5270,6 +5455,36 @@ var WOZLLA;
             this._endGlobalZ = 0;
             this._maskLayer = WOZLLA.renderer.ILayerManager.DEFAULT;
         }
+        Object.defineProperty(Mask.prototype, "startGlobalZ", {
+            get: function () {
+                return this._startGlobalZ;
+            },
+            set: function (value) {
+                this._startGlobalZ = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mask.prototype, "endGlobalZ", {
+            get: function () {
+                return this._endGlobalZ;
+            },
+            set: function (value) {
+                this._endGlobalZ = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mask.prototype, "layer", {
+            get: function () {
+                return this._maskLayer;
+            },
+            set: function (value) {
+                this._maskLayer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * set mask range, mask range is effect on globalZ of render commmand
          * @param start
@@ -5342,6 +5557,27 @@ var WOZLLA;
         };
         return DisableMaskCommand;
     })(WOZLLA.renderer.CustomCommand);
+    WOZLLA.Component.register(Mask, {
+        name: 'Mask',
+        abstractComponent: true,
+        properties: [{
+            name: 'startGlobalZ',
+            type: 'int',
+            defaultValue: 0
+        }, {
+            name: 'endGlobalZ',
+            type: 'int',
+            defaultValue: 1
+        }, {
+            name: 'layer',
+            type: 'string',
+            defaultValue: WOZLLA.renderer.ILayerManager.DEFAULT
+        }, {
+            name: 'reverse',
+            type: 'boolean',
+            defaultValue: false
+        }]
+    });
 })(WOZLLA || (WOZLLA = {}));
 var WOZLLA;
 (function (WOZLLA) {
@@ -5870,6 +6106,18 @@ var WOZLLA;
             return RectMask;
         })(WOZLLA.Mask);
         component.RectMask = RectMask;
+        WOZLLA.Component.register(RectMask, {
+            name: 'RectMask',
+            properties: [
+                WOZLLA.Component.extendConfig(WOZLLA.Mask),
+                {
+                    name: 'region',
+                    type: 'rect',
+                    convert: component.PropertyConverter.array2rect,
+                    defaultValue: [0, 0, 100, 100]
+                }
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="../../assets/GLTextureAsset.ts"/>
@@ -6014,6 +6262,9 @@ var WOZLLA;
             });
             PrimitiveRenderer.prototype.render = function (renderer, flags) {
                 var size;
+                if (!this._primitiveStyle) {
+                    return;
+                }
                 if (this._graphicsDirty || this._primitiveStyle.dirty) {
                     size = this.measurePrimitiveSize();
                     this.canvasWidth = size.width;
@@ -6037,6 +6288,7 @@ var WOZLLA;
                 if (this._primitiveStyle.fill) {
                     context.fillStyle = this._primitiveStyle.fillColor;
                 }
+                context.globalAlpha = this._primitiveStyle.alpha;
             };
             PrimitiveRenderer.prototype.drawPrimitive = function (context) {
                 throw new Error('abstract method');
@@ -6050,12 +6302,24 @@ var WOZLLA;
         var PrimitiveStyle = (function () {
             function PrimitiveStyle() {
                 this.dirty = true;
+                this._alpha = 1;
                 this._stroke = true;
                 this._fill = false;
                 this._strokeColor = '#000000';
                 this._strokeWidth = 1;
                 this._fillColor = '#FFFFFF';
             }
+            Object.defineProperty(PrimitiveStyle.prototype, "alpha", {
+                get: function () {
+                    return this._alpha;
+                },
+                set: function (value) {
+                    this._alpha = value;
+                    this.dirty = true;
+                },
+                enumerable: true,
+                configurable: true
+            });
             Object.defineProperty(PrimitiveStyle.prototype, "stroke", {
                 get: function () {
                     return this._stroke;
@@ -6124,9 +6388,26 @@ var WOZLLA;
             return PrimitiveStyle;
         })();
         component.PrimitiveStyle = PrimitiveStyle;
+        WOZLLA.Component.register(PrimitiveRenderer, {
+            name: 'PrimitiveRenderer',
+            abstractComponent: true,
+            properties: [{
+                name: 'primitiveStyle',
+                type: 'primitiveStyle',
+                defaultValue: {
+                    alpha: 1,
+                    stroke: true,
+                    fill: false,
+                    strokeColor: '#000000',
+                    strokeWidth: 1,
+                    fillColor: '#FFFFFF'
+                }
+            }]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="PrimitiveRenderer.ts"/>
+/// <reference path="../PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var component;
@@ -6184,6 +6465,13 @@ var WOZLLA;
             return CircleRenderer;
         })(component.PrimitiveRenderer);
         component.CircleRenderer = CircleRenderer;
+        WOZLLA.Component.register(CircleRenderer, {
+            name: 'CircleRenderer',
+            properties: [
+                WOZLLA.Component.extendConfig(component.PrimitiveRenderer),
+                component.PropertySnip.createCircle('circle')
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="PrimitiveRenderer.ts"/>
@@ -6244,37 +6532,13 @@ var WOZLLA;
             return RectRenderer;
         })(component.PrimitiveRenderer);
         component.RectRenderer = RectRenderer;
-    })(component = WOZLLA.component || (WOZLLA.component = {}));
-})(WOZLLA || (WOZLLA = {}));
-var WOZLLA;
-(function (WOZLLA) {
-    var component;
-    (function (component) {
-        var PropertyConverter = (function () {
-            function PropertyConverter() {
-            }
-            PropertyConverter.array2rect = function (arr) {
-                return new WOZLLA.math.Rectangle(arr[0], arr[1], arr[2], arr[3]);
-            };
-            PropertyConverter.array2circle = function (arr) {
-                return new WOZLLA.math.Circle(arr[0], arr[1], arr[2]);
-            };
-            PropertyConverter.json2TextStyle = function (json) {
-                var style = new component.TextStyle();
-                for (var i in json) {
-                    style[i] = json[i];
-                }
-                return style;
-            };
-            PropertyConverter.array2Padding = function (arr) {
-                return new WOZLLA.layout.Padding(arr[0], arr[1], arr[2], arr[3]);
-            };
-            PropertyConverter.array2Margin = function (arr) {
-                return new WOZLLA.layout.Margin(arr[0], arr[1], arr[2], arr[3]);
-            };
-            return PropertyConverter;
-        })();
-        component.PropertyConverter = PropertyConverter;
+        WOZLLA.Component.register(RectRenderer, {
+            name: 'RectRenderer',
+            properties: [
+                WOZLLA.Component.extendConfig(component.PrimitiveRenderer),
+                component.PropertySnip.createRect('rect')
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="QuadRenderer.ts"/>
@@ -6382,6 +6646,8 @@ var WOZLLA;
                     return this._spriteAtlasSrc;
                 },
                 set: function (value) {
+                    if (this.spriteAtlasSrc && !value)
+                        return;
                     this.spriteAtlasSrc = value;
                     this.spriteName = null;
                 },
@@ -6440,13 +6706,27 @@ var WOZLLA;
                 defaultValue: 1
             }, {
                 name: 'spriteAtlasSrc',
-                type: 'string'
+                type: 'string',
+                editor: 'spriteAtlas',
+                defaultValue: ''
             }, {
                 name: 'spriteName',
-                type: 'string'
+                type: 'string',
+                defaultValue: '',
+                editor: 'spriteFrame',
+                data: {
+                    fromSpriteAtlas: 'spriteAtlasSrc'
+                }
             }, {
                 name: 'imageSrc',
-                type: 'string'
+                type: 'string',
+                defaultValue: '',
+                editor: 'imageSrc'
+            }, {
+                name: 'spriteOffset',
+                type: 'spriteOffset',
+                convert: component.PropertyConverter.array2point,
+                defaultValue: [0, 0]
             }]
         });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
@@ -6591,6 +6871,26 @@ var WOZLLA;
             return AnimationRenderer;
         })(component.SpriteRenderer);
         component.AnimationRenderer = AnimationRenderer;
+        WOZLLA.Component.register(AnimationRenderer, {
+            name: "AnimationRenderer",
+            properties: [
+                WOZLLA.Component.extendConfig(component.SpriteRenderer, function (name) {
+                    return name !== 'spriteFrame' && name !== 'spriteOffset' && name !== 'imageSrc';
+                }),
+                {
+                    name: 'patch',
+                    type: 'rect',
+                    defaultValue: [0, 0, 0, 0],
+                    convert: component.PropertyConverter.array2rect
+                },
+                {
+                    name: 'renderRegion',
+                    type: 'rect',
+                    defaultValue: [0, 0, 0, 0],
+                    convert: component.PropertyConverter.array2rect
+                }
+            ]
+        });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="SpriteRenderer.ts"/>
@@ -6875,6 +7175,25 @@ var WOZLLA;
                 }
             ]
         });
+    })(component = WOZLLA.component || (WOZLLA.component = {}));
+})(WOZLLA || (WOZLLA = {}));
+/// <reference path="../renderer/SpriteRenderer.ts"/>
+var WOZLLA;
+(function (WOZLLA) {
+    var component;
+    (function (component) {
+        var QuadCommand = WOZLLA.renderer.QuadCommand;
+        /**
+         * @class WOZLLA.component.SpriteFrameText
+         */
+        var SpriteFrameText = (function (_super) {
+            __extends(SpriteFrameText, _super);
+            function SpriteFrameText() {
+                _super.apply(this, arguments);
+            }
+            return SpriteFrameText;
+        })(component.SpriteRenderer);
+        component.SpriteFrameText = SpriteFrameText;
     })(component = WOZLLA.component || (WOZLLA.component = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="../renderer/CanvasRenderer.ts"/>
@@ -7194,12 +7513,24 @@ var WOZLLA;
             name: 'TextRenderer',
             properties: [{
                 name: 'text',
-                type: 'string'
+                type: 'string',
+                defaultValue: ''
             }, {
-                name: 'style',
-                type: 'object',
+                name: 'textStyle',
+                type: 'textStyle',
                 convert: component.PropertyConverter.json2TextStyle,
-                editor: 'textStyle'
+                defaultValue: {
+                    font: 'normal 24px Arial',
+                    color: '#000000',
+                    shadow: false,
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    stroke: false,
+                    strokeColor: '#000000',
+                    strokeWidth: 0,
+                    align: TextStyle.START,
+                    baseline: TextStyle.TOP
+                }
             }]
         });
     })(component = WOZLLA.component || (WOZLLA.component = {}));
@@ -7875,6 +8206,48 @@ var WOZLLA;
 })(WOZLLA || (WOZLLA = {}));
 var WOZLLA;
 (function (WOZLLA) {
+    var math;
+    (function (math) {
+        /**
+         * @class WOZLLA.math.Point
+         * a util class contains x and y properties
+         */
+        var Point = (function () {
+            /**
+             * @method constructor
+             * create a new instance of Point
+             * @member WOZLLA.math.Point
+             * @param {number} x
+             * @param {number} y
+             */
+            function Point(x, y) {
+                /**
+                 * @property {number} x
+                 * get or set x of this object
+                 * @member WOZLLA.math.Point
+                 */
+                this.x = x;
+                /**
+                 * @property {number} y
+                 * get or set y of this object
+                 * @member WOZLLA.math.Point
+                 */
+                this.y = y;
+            }
+            /**
+             * get simple description of this object
+             * @returns {string}
+             */
+            Point.prototype.toString = function () {
+                return 'Point[' + this.x + ',' + this.y + ']';
+            };
+            return Point;
+        })();
+        math.Point = Point;
+    })(math = WOZLLA.math || (WOZLLA.math = {}));
+})(WOZLLA || (WOZLLA = {}));
+var WOZLLA;
+(function (WOZLLA) {
     var renderer;
     (function (renderer) {
         var IMaterialManager;
@@ -8088,6 +8461,7 @@ var WOZLLA;
 /// <reference path="../core/Component.ts"/>
 /// <reference path="../utils/StateMachine.ts"/>
 /// <reference path="../component/renderer/SpriteRenderer.ts"/>
+/// <reference path="../component/PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var ui;
@@ -8125,10 +8499,20 @@ var WOZLLA;
             return StateWidget;
         })(WOZLLA.component.SpriteRenderer);
         ui.StateWidget = StateWidget;
+        WOZLLA.Component.register(StateWidget, {
+            name: "StateWidget",
+            abstractComponent: true,
+            properties: [
+                WOZLLA.Component.extendConfig(WOZLLA.component.SpriteRenderer, function (name) {
+                    return name !== 'spriteFrame' && name !== 'imageSrc';
+                })
+            ]
+        });
     })(ui = WOZLLA.ui || (WOZLLA.ui = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="StateWidget.ts"/>
 /// <reference path="../component/renderer/SpriteRenderer.ts"/>
+/// <reference path="../component/PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var ui;
@@ -8209,10 +8593,20 @@ var WOZLLA;
             return Button;
         })(ui.StateWidget);
         ui.Button = Button;
+        WOZLLA.Component.register(Button, {
+            name: "Button",
+            properties: [
+                WOZLLA.Component.extendConfig(ui.StateWidget),
+                WOZLLA.component.PropertySnip.createSpriteFrame('disabledSpriteName'),
+                WOZLLA.component.PropertySnip.createSpriteFrame('normalSpriteName'),
+                WOZLLA.component.PropertySnip.createSpriteFrame('pressedSpriteName')
+            ]
+        });
     })(ui = WOZLLA.ui || (WOZLLA.ui = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="StateWidget.ts"/>
 /// <reference path="../component/renderer/SpriteRenderer.ts"/>
+/// <reference path="../component/PropertySnip.ts"/>
 var WOZLLA;
 (function (WOZLLA) {
     var ui;
@@ -8291,6 +8685,15 @@ var WOZLLA;
             return CheckBox;
         })(ui.StateWidget);
         ui.CheckBox = CheckBox;
+        WOZLLA.Component.register(CheckBox, {
+            name: "CheckBox",
+            properties: [
+                WOZLLA.Component.extendConfig(ui.StateWidget),
+                WOZLLA.component.PropertySnip.createSpriteFrame('disabledSpriteName'),
+                WOZLLA.component.PropertySnip.createSpriteFrame('uncheckedSpriteName'),
+                WOZLLA.component.PropertySnip.createSpriteFrame('checkedSpriteName')
+            ]
+        });
     })(ui = WOZLLA.ui || (WOZLLA.ui = {}));
 })(WOZLLA || (WOZLLA = {}));
 /// <reference path="../core/Component.ts"/>
@@ -8635,7 +9038,7 @@ var WOZLLA;
         })(WOZLLA.Behaviour);
         ui.ScrollRect = ScrollRect;
         WOZLLA.Component.register(ScrollRect, {
-            name: 'UI.ScrollRect',
+            name: 'ScrollRect',
             properties: [{
                 name: 'enabeld',
                 type: 'boolean',
