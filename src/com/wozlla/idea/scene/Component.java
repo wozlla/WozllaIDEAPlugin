@@ -13,7 +13,7 @@ public class Component extends PropertyObject {
             source.put("uuid", UUID.randomUUID().toString());
             source.put("name", name);
             source.put("properties", new JSONObject());
-            return new Component(source, rootGameObject.getSceneChangeListener());
+            return new Component(source, rootGameObject.getSceneChangeListener(), true);
         } catch(JSONException e) {
             throw new RuntimeException(e);
         }
@@ -23,7 +23,14 @@ public class Component extends PropertyObject {
     protected JSONObject componentSource;
 
     public Component(JSONObject source, SceneChangeListener listener) throws JSONException {
+        this(source, listener, false);
+    }
+
+    public Component(JSONObject source, SceneChangeListener listener, boolean clone) throws JSONException {
         super(source.getJSONObject("properties"), listener);
+        if(clone) {
+           source.put("uuid", UUID.randomUUID().toString());
+        }
         this.componentSource = source;
         checkProperty(source, "name");
     }

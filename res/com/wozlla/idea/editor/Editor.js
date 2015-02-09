@@ -91,7 +91,7 @@
                 director.touch.updateCanvasOffset();
             }, 10);
 
-            var helperLayer = "__internal_coordsGameObject";
+            var helperLayer = "__Editor_Helper_Layer";
 
             var oMask = new WOZLLA.GameObject();
             oMask.name = "VisualEditor_Mask";
@@ -179,7 +179,7 @@
             rectHelperLine.name = 'rectHelperLine' + Date.now();
             var rectRenderer = new WOZLLA.component.RectRenderer();
             rectHelperLine.addComponent(rectRenderer);
-            rectHelperLine.renderLayer = helperLayer;
+            rectRenderer.renderLayer = helperLayer;
             rectHelperLine.loadAssets(function() {
                 rectHelperLine.init();
             });
@@ -188,7 +188,7 @@
             cirlceHelperLine.name = 'cirlceHelperLine' + Date.now();
             var circleRenderer = new WOZLLA.component.CircleRenderer();
             cirlceHelperLine.addComponent(circleRenderer);
-            cirlceHelperLine.renderLayer = helperLayer;
+            circleRenderer.renderLayer = helperLayer;
             cirlceHelperLine.loadAssets(function() {
                 cirlceHelperLine.init();
             });
@@ -206,14 +206,16 @@
                     if(this.rectTransform && this.rectTransform.width > 0 && this.rectTransform.height > 0) {
                         rectHelperLine.renderer.rect = new WOZLLA.math.Rectangle(
                             0, 0, this.rectTransform.width, this.rectTransform.height);
-                        rectHelperLine.renderer.primitiveStyle.color = 'red';
+                        rectHelperLine.renderer.primitiveStyle.strokeColor = 'red';
                         rectHelperLine.renderer.primitiveStyle.alpha = 0.6;
+                        rectHelperLine.transform.dirty = true;
                         rectHelperLine.visit(renderer, this.transform, flags);
 
                         rectHelperLine.renderer.rect = new WOZLLA.math.Rectangle(
                             -1, -1, this.rectTransform.width+2, this.rectTransform.height+2);
-                        rectHelperLine.renderer.primitiveStyle.color = 'blue';
+                        rectHelperLine.renderer.primitiveStyle.strokeColor = 'blue';
                         rectHelperLine.renderer.primitiveStyle.alpha = 0.6;
+                        rectHelperLine.transform.dirty = true;
                         rectHelperLine.visit(renderer, this.transform, flags);
                     }
 
@@ -222,15 +224,17 @@
                         if (collider instanceof WOZLLA.component.RectCollider) {
                             if (collider.region) {
                                 rectHelperLine.renderer.rect = collider.region;
-                                rectHelperLine.renderer.primitiveStyle.color = 'yellow';
+                                rectHelperLine.renderer.primitiveStyle.strokeColor = 'yellow';
                                 rectHelperLine.renderer.primitiveStyle.alpha = 0.6;
+                                rectHelperLine.transform.dirty = true;
                                 rectHelperLine.visit(renderer, this.transform, flags);
                             }
                         } else if (collider instanceof  WOZLLA.component.CircleCollider) {
                             if (collider.region) {
                                 cirlceHelperLine.renderer.circle = collider.region;
-                                cirlceHelperLine.renderer.primitiveStyle.color = 'yellow';
+                                cirlceHelperLine.renderer.primitiveStyle.strokeColor = 'yellow';
                                 cirlceHelperLine.renderer.primitiveStyle.alpha = 0.6;
+                                cirlceHelperLine.transform.dirty = true;
                                 cirlceHelperLine.visit(renderer, this.transform, flags);
                             }
                         }

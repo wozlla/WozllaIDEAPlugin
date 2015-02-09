@@ -16,10 +16,12 @@ import org.codehaus.jettison.json.JSONObject;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SpriteAtlasField extends StringField implements DnDTarget, Field.ProjectAware {
+public class SpriteAtlasField extends StringField implements DnDTarget, Field.ProjectAware, Field.LabelAware {
 
     private static String history;
 
@@ -48,6 +50,19 @@ public class SpriteAtlasField extends StringField implements DnDTarget, Field.Pr
             }
         }
         this.boundFile = project.getBaseDir().findFileByRelativePath(getValue());
+    }
+
+    @Override
+    public void setLabel(JLabel label) {
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) {
+                    setValue("");
+                    updateTargetPropertyValue();
+                }
+            }
+        });
     }
 
     public VirtualFile getBoundFile() {

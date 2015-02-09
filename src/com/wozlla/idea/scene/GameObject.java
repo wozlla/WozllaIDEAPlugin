@@ -37,7 +37,7 @@ public class GameObject extends PropertyObject {
         try {
             JSONObject source = new JSONObject(target.toJSONString());
             source.put("uuid", UUID.randomUUID().toString());
-            return new GameObject(source, target.getSceneChangeListener());
+            return new GameObject(source, target.getSceneChangeListener(), true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,8 +54,14 @@ public class GameObject extends PropertyObject {
     private List<HierarchyChangeListener> listenerList = new ArrayList<HierarchyChangeListener>();
 
     public GameObject(JSONObject source, SceneChangeListener listener) throws JSONException {
-        super(source, listener);
+        this(source, listener, false);
+    }
 
+    public GameObject(JSONObject source, SceneChangeListener listener, boolean clone) throws JSONException {
+        super(source, listener);
+        if(clone) {
+            source.put("uuid", UUID.randomUUID().toString());
+        }
         this.uuid = source.getString("uuid");
         this.checkProperty("name");
         this.ensureProperty("rect", false);
@@ -73,13 +79,13 @@ public class GameObject extends PropertyObject {
 
         JSONArray children = source.getJSONArray("children");
         for (int i = 0, len = children.length(); i < len; i++) {
-            GameObject child = new GameObject(children.getJSONObject(i), listener);
+            GameObject child = new GameObject(children.getJSONObject(i), listener, clone);
             child.parent = this;
             this.children.add(child);
         }
         JSONArray components = source.getJSONArray("components");
         for (int i = 0, len = components.length(); i < len; i++) {
-            Component component = new Component(components.getJSONObject(i), listener);
+            Component component = new Component(components.getJSONObject(i), listener, clone);
             component.gameObject = this;
             this.components.add(component);
         }
