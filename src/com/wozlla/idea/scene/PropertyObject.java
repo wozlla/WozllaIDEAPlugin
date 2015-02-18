@@ -91,6 +91,7 @@ public class PropertyObject {
     }
 
     public void ensureProperty(String name, Object defaultValue) throws JSONException {
+
         if(!this.source.has(name)) {
             this.set(name, defaultValue);
         }

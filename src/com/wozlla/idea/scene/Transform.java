@@ -26,6 +26,7 @@ public class Transform extends PropertyObject {
             this.ensureProperty("bottom", 0);
             this.ensureProperty("width", 0);
             this.ensureProperty("height", 0);
+            this.ensureProperty("relative", true);
         } else {
             this.ensureProperty("x", 0);
             this.ensureProperty("y", 0);
@@ -34,7 +35,7 @@ public class Transform extends PropertyObject {
             this.ensureProperty("rotation", 0);
             this.ensureProperty("skewX", 0);
             this.ensureProperty("skewY", 0);
-            this.ensureProperty("relative", false);
+            this.ensureProperty("relative", true);
         }
     }
 

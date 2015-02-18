@@ -12,12 +12,14 @@ import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.UIUtil;
 import com.thaiopensource.xml.dtd.om.Def;
 import com.wozlla.idea.Icons;
+import com.wozlla.idea.Utils;
 import com.wozlla.idea.WozllaIDEAPlugin;
 import com.wozlla.idea.scene.GameObject;
 import com.wozlla.idea.scene.PropertyObject;
 import com.wozlla.idea.scene.Transform;
 import com.wozlla.idea.utils.DnDAdapter;
 import org.apache.batik.apps.svgbrowser.DOMDocumentTree;
+import org.codehaus.jettison.json.JSONObject;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -267,41 +269,53 @@ public class Hierarchy extends Tree implements ActionListener {
         public boolean update(DnDEvent event) {
             if(!(event.getAttachedObject() instanceof GameObjectNode)) {
                 File file = getSingleFile(event);
-                if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
-                    event.setDropPossible(true);
-                } else {
+                if(file == null || !file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
                     event.setDropPossible(false);
+                    return false;
+                } else {
+                    final Point point = event.getPoint();
+                    final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
+                    final GameObjectNode targetNode = (GameObjectNode) path.getLastPathComponent();
+                    final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
+                    if (pathBounds == null || targetNode == null) {
+                        event.setDropPossible(false);
+                        return false;
+                    }
+                    event.setHighlighting(new RelativeRectangle(Hierarchy.this, pathBounds),
+                            DnDEvent.DropTargetHighlightingType.RECTANGLE);
+                    event.setDropPossible(true);
+                    return false;
                 }
-                return false;
-            }
-            final GameObjectNode draggedNode = (GameObjectNode)event.getAttachedObject();
-            final Point point = event.getPoint();
-            final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
-            final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
-            final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
-            if(pathBounds == null || targetNode == null || draggedNode == targetNode) {
-                event.setDropPossible(false);
-                return false;
-            }
-            final double distance = point.y - pathBounds.getCenterY();
-            int type;
-            if(Math.abs(distance) <= 7) {
-                type = DnDEvent.DropTargetHighlightingType.RECTANGLE;
             } else {
-                if(targetNode.isRoot()) {
+                final GameObjectNode draggedNode = (GameObjectNode) event.getAttachedObject();
+                final Point point = event.getPoint();
+                final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
+                final GameObjectNode targetNode = (GameObjectNode) path.getLastPathComponent();
+                final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
+                if (pathBounds == null || targetNode == null || draggedNode == targetNode) {
                     event.setDropPossible(false);
                     return false;
                 }
-                type = DnDEvent.DropTargetHighlightingType.H_ARROWS;
-                if(distance > 0) {
-                    pathBounds.y += pathBounds.getHeight()/2;
+                final double distance = point.y - pathBounds.getCenterY();
+                int type;
+                if (Math.abs(distance) <= 7) {
+                    type = DnDEvent.DropTargetHighlightingType.RECTANGLE;
                 } else {
-                    pathBounds.y -= pathBounds.getHeight()/2;
+                    if (targetNode.isRoot()) {
+                        event.setDropPossible(false);
+                        return false;
+                    }
+                    type = DnDEvent.DropTargetHighlightingType.H_ARROWS;
+                    if (distance > 0) {
+                        pathBounds.y += pathBounds.getHeight() / 2;
+                    } else {
+                        pathBounds.y -= pathBounds.getHeight() / 2;
+                    }
                 }
+                event.setHighlighting(new RelativeRectangle(Hierarchy.this, pathBounds), type);
+                event.setDropPossible(true);
+                return false;
             }
-            event.setHighlighting(new RelativeRectangle(Hierarchy.this, pathBounds), type);
-            event.setDropPossible(true);
-            return false;
         }
 
         @Override
@@ -315,6 +329,21 @@ public class Hierarchy extends Tree implements ActionListener {
                 if(file != null && file.getName().endsWith(WozllaIDEAPlugin.SCENE_FILE_SUFFIX)) {
                     VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
                     if(virtualFile != null) {
+                        final Point point = event.getPoint();
+                        final TreePath path = Hierarchy.this.getClosestPathForLocation(point.x, point.y);
+                        final GameObjectNode targetNode = (GameObjectNode)path.getLastPathComponent();
+                        final Rectangle pathBounds = Hierarchy.this.getPathBounds(path);
+                        if(pathBounds == null || targetNode == null) {
+                            return;
+                        }
+                        try {
+                            JSONObject source = Utils.virtualFile2JSONObject(virtualFile);
+                            JSONObject sourceRoot = source.getJSONObject("root");
+                            GameObject gameObject = new GameObject(sourceRoot, targetNode.gameObject.getSceneChangeListener(), true);
+                            targetNode.gameObject.addGameObject(gameObject);
+                        } catch(Exception e) {
+                            throw new RuntimeException(e);
+                        }
 
                     }
                 }

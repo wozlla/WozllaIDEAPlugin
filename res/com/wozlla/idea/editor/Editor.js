@@ -347,6 +347,7 @@
 
         bridge.onTransformPropertyChange = function(uuid, name, newValue, oldValue) {
             var gameObject = builder.getByUUID(uuid);
+            console.log(gameObject.name, name, newValue);
             if(name === 'anchorMode') {
                 gameObject.transform.anchorMode = WOZLLA.RectTransform.getMode(newValue);
                 console.log(newValue + " " + WOZLLA.RectTransform.getMode(newValue))

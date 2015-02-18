@@ -26,6 +26,7 @@ public class FieldFactory {
         fieldMap.put("spriteFrame".toLowerCase(), SpriteFrameField.class);
         fieldMap.put("spriteOffset".toLowerCase(), SpriteOffsetField.class);
         fieldMap.put("textStyle".toLowerCase(), TextStyleField.class);
+        fieldMap.put("primitiveStyle".toLowerCase(), PrimitiveStyleField.class);
         fieldMap.put("renderLayer".toLowerCase(), RenderLayerField.class);
     }
 

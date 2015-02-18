@@ -47,14 +47,15 @@ public class RectTransformPane extends CommonPane {
                 "HStrength_Bottom",
                 "HStrength_VStrength"
         }));
-        fieldMap.put("x", new NumberField(transform, "px"));
-        fieldMap.put("y", new NumberField(transform, "py"));
+        fieldMap.put("px", new NumberField(transform, "px"));
+        fieldMap.put("py", new NumberField(transform, "py"));
         fieldMap.put("top", new NumberField(transform, "top"));
         fieldMap.put("left", new NumberField(transform, "left"));
         fieldMap.put("right", new NumberField(transform, "right"));
         fieldMap.put("bottom", new NumberField(transform, "bottom"));
         fieldMap.put("width", new NumberField(transform, "width"));
         fieldMap.put("height", new NumberField(transform, "height"));
+        fieldMap.put("relative", new BooleanField(transform, "relative"));
 
         JPanel content = (JPanel)this.getContent();
         content.setLayout(new GridBagLayout());
@@ -64,8 +65,8 @@ public class RectTransformPane extends CommonPane {
         this.addWithConstraints(content, gc, 1, 0, 2, 1, HORIZONTAL, getFieldComponent("anchorMode"));
 
         this.addWithConstraints(content, gc, 0, 1, 1, 1, HORIZONTAL, new JLabel("position"));
-        this.addWithConstraints(content, gc, 1, 1, 1, 1, HORIZONTAL, getFieldComponent("x"));
-        this.addWithConstraints(content, gc, 2, 1, 1, 1, HORIZONTAL, getFieldComponent("y"));
+        this.addWithConstraints(content, gc, 1, 1, 1, 1, HORIZONTAL, getFieldComponent("px"));
+        this.addWithConstraints(content, gc, 2, 1, 1, 1, HORIZONTAL, getFieldComponent("py"));
 
         this.addWithConstraints(content, gc, 0, 2, 1, 1, HORIZONTAL, new JLabel("left"));
         this.addWithConstraints(content, gc, 1, 2, 2, 1, HORIZONTAL, getFieldComponent("left"));
@@ -83,6 +84,9 @@ public class RectTransformPane extends CommonPane {
         this.addWithConstraints(content, gc, 0, 6, 1, 1, HORIZONTAL, new JLabel("size"));
         this.addWithConstraints(content, gc, 1, 6, 1, 1, HORIZONTAL, getFieldComponent("width"));
         this.addWithConstraints(content, gc, 2, 6, 1, 1, HORIZONTAL, getFieldComponent("height"));
+
+        this.addWithConstraints(content, gc, 0, 7, 1, 1, HORIZONTAL, new JLabel("relative"));
+        this.addWithConstraints(content, gc, 1, 7, 2, 1, HORIZONTAL, getFieldComponent("relative"));
 
         updateOtherFieldState(anchorModelField.getValue());
         anchorModelField.getComponent().addItemListener(new ItemListener() {
@@ -110,23 +114,23 @@ public class RectTransformPane extends CommonPane {
         String hmode = modes[0];
         String vmode = modes[1];
         if(hmode.equals("Left") || hmode.equals("Center") || hmode.equals("Right")) {
-            setComponenEnabled("x", true);
+            setComponenEnabled("px", true);
             setComponenEnabled("left", false);
             setComponenEnabled("right", false);
             setComponenEnabled("width", true);
         } else {
-            setComponenEnabled("x", false);
+            setComponenEnabled("px", false);
             setComponenEnabled("left", true);
             setComponenEnabled("right", true);
             setComponenEnabled("width", false);
         }
         if(vmode.equals("Top") || vmode.equals("Middle") || vmode.equals("Bottom")) {
-            setComponenEnabled("y", true);
+            setComponenEnabled("py", true);
             setComponenEnabled("top", false);
             setComponenEnabled("bottom", false);
             setComponenEnabled("height", true);
         } else {
-            setComponenEnabled("y", false);
+            setComponenEnabled("py", false);
             setComponenEnabled("top", true);
             setComponenEnabled("bottom", true);
             setComponenEnabled("height", false);

@@ -10,11 +10,11 @@ public class NumberField extends PropertyBindField<Double, JSpinner> implements 
 
     public NumberField(JSpinner component, PropertyObject target, String propertyName) {
         super(component, target, propertyName);
-
         this.initFieldValues();
         component.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+                System.out.println(getValue());
                 updateTargetPropertyValue();
             }
         });

@@ -12,24 +12,16 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class TextStyleField extends PropertyBindField<JSONObject, JPanel> implements Field.GridBagLayoutAware, Field.WithoutLabel {
+public class PrimitiveStyleField extends PropertyBindField<JSONObject, JPanel> implements Field.GridBagLayoutAware, Field.WithoutLabel {
 
-    protected JTextField fontField = new JTextField();
-    protected JTextField colorField = new JTextField();
-    protected JCheckBox shadowCheckBox = new JBCheckBox();
-    protected JSpinner shadowOffsetXSpinner = new JSpinner();
-    protected JSpinner shadowOffsetYSpinner = new JSpinner();
+    protected JSpinner alphaSpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.0, 1.0, 0.01));
     protected JCheckBox strokeCheckBox = new JBCheckBox();
-    protected JTextField strokeColorField = new JTextField();
     protected JSpinner strokeWidthSpinner = new JSpinner();
-    protected ComboBox alignComboBox = new ComboBox(new String[] {
-        "start", "center", "end"
-    });
-    protected ComboBox baseLineComboBox = new ComboBox(new String[] {
-        "top", "middle", "bottom"
-    });
+    protected JTextField strokeColorField = new JTextField();
+    protected JCheckBox fillCheckBox = new JBCheckBox();
+    protected JTextField fillColorField = new JTextField();
 
-    public TextStyleField(PropertyObject target, String propertyName) {
+    public PrimitiveStyleField(PropertyObject target, String propertyName) {
         super(new JPanel(), target, propertyName);
 
         JPanel content = this.getComponent();
@@ -39,26 +31,10 @@ public class TextStyleField extends PropertyBindField<JSONObject, JPanel> implem
         int gridy = 0;
         int fullGridWidth = 4;
 
-        addLabel(gc, "font", gridy++);
+        addLabel(gc, "alpha", gridy++);
         gc.gridx = 1;
         gc.gridwidth = fullGridWidth-1;
-        content.add(fontField, gc);
-
-        addLabel(gc, "color", gridy++);
-        gc.gridx = 1;
-        gc.gridwidth = fullGridWidth-1;
-        content.add(colorField, gc);
-
-        addLabel(gc, "shadow", gridy++);
-        gc.gridx = 1;
-        gc.gridwidth = 1;
-        content.add(shadowCheckBox, gc);
-        gc.gridx = 2;
-        gc.gridwidth = 1;
-        content.add(shadowOffsetXSpinner, gc);
-        gc.gridx = 3;
-        gc.gridwidth = 1;
-        content.add(shadowOffsetYSpinner, gc);
+        content.add(alphaSpinner, gc);
 
         addLabel(gc, "stroke", gridy++);
         gc.gridx = 1;
@@ -71,13 +47,13 @@ public class TextStyleField extends PropertyBindField<JSONObject, JPanel> implem
         gc.gridwidth = 1;
         content.add(strokeWidthSpinner, gc);
 
-        addLabel(gc, "align", gridy++);
+        addLabel(gc, "fill", gridy++);
         gc.gridx = 1;
         gc.gridwidth = 1;
-        content.add(alignComboBox, gc);
+        content.add(fillCheckBox, gc);
         gc.gridx = 2;
         gc.gridwidth = 1;
-        content.add(baseLineComboBox, gc);
+        content.add(fillColorField, gc);
 
         this.initFieldValues();
 
@@ -113,40 +89,26 @@ public class TextStyleField extends PropertyBindField<JSONObject, JPanel> implem
             }
         };
 
-        fontField.addKeyListener(keyAdapter);
-        fontField.addFocusListener(focusAdapter);
-
-        colorField.addKeyListener(keyAdapter);
-        colorField.addFocusListener(focusAdapter);
-
-        shadowCheckBox.addChangeListener(changeListener);
-        shadowOffsetYSpinner.addChangeListener(changeListener);
-        shadowOffsetYSpinner.addChangeListener(changeListener);
-
+        alphaSpinner.addChangeListener(changeListener);
         strokeCheckBox.addChangeListener(changeListener);
         strokeColorField.addKeyListener(keyAdapter);
         strokeColorField.addFocusListener(focusAdapter);
-
         strokeWidthSpinner.addChangeListener(changeListener);
-
-        alignComboBox.addItemListener(itemListener);
-        baseLineComboBox.addItemListener(itemListener);
+        fillCheckBox.addChangeListener(changeListener);
+        fillColorField.addKeyListener(keyAdapter);
+        fillColorField.addFocusListener(focusAdapter);
     }
 
     @Override
     public void setValue(JSONObject value) {
-        if(fontField != null) {
+        if(alphaSpinner != null) {
             try {
-                fontField.setText(value.getString("font"));
-                colorField.setText(value.getString("color"));
-                shadowCheckBox.setSelected(value.getBoolean("shadow"));
-                shadowOffsetXSpinner.setValue(value.getInt("shadowOffsetX"));
-                shadowOffsetYSpinner.setValue(value.getInt("shadowOffsetY"));
+                alphaSpinner.setValue(value.getDouble("alpha"));
                 strokeCheckBox.setSelected(value.getBoolean("stroke"));
                 strokeColorField.setText(value.getString("strokeColor"));
                 strokeWidthSpinner.setValue(value.getInt("strokeWidth"));
-                alignComboBox.setSelectedItem(value.getString("align"));
-                baseLineComboBox.setSelectedItem(value.getString("baseline"));
+                fillCheckBox.setSelected(value.getBoolean("fill"));
+                fillColorField.setText(value.getString("fillColor"));
             } catch(JSONException e) {
                 throw new RuntimeException(e);
             }
@@ -157,16 +119,12 @@ public class TextStyleField extends PropertyBindField<JSONObject, JPanel> implem
     public JSONObject getValue() {
         JSONObject value = new JSONObject();
         try {
-            value.put("font", fontField.getText());
-            value.put("color", colorField.getText());
-            value.put("shadow", shadowCheckBox.isSelected());
-            value.put("shadowOffsetX", shadowOffsetXSpinner.getValue());
-            value.put("shadowOffsetY", shadowOffsetYSpinner.getValue());
+            value.put("alpha", alphaSpinner.getValue());
             value.put("stroke", strokeCheckBox.isSelected());
             value.put("strokeColor", strokeColorField.getText());
             value.put("strokeWidth", strokeWidthSpinner.getValue());
-            value.put("align", alignComboBox.getSelectedItem().toString());
-            value.put("baseline", baseLineComboBox.getSelectedItem().toString());
+            value.put("fill", fillCheckBox.isSelected());
+            value.put("fillColor", fillColorField.getText());
         } catch(JSONException e) {
             throw new RuntimeException(e);
         }
